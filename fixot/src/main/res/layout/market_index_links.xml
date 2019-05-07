@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/center_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:background="?attr/evenColor"
+    android:orientation="horizontal" >
+    <!--android:background="@android:color/transparent"-->
+    <!--android:background="?attr/gray"-->
+
+    <Button
+        android:id="@+id/stock_button"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderlayout"
+        android:text="@string/stock"
+        android:padding="5dp"
+        android:textColor="?attr/colorValues"
+        android:onClick="loadPage"
+        style="@style/textStyle" />
+    <!--android:background="?attr/colorMedium"-->
+    <!--oddColor-->
+
+    <Button
+        android:id="@+id/news_button"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderlayout"
+        android:text="@string/news"
+        android:onClick="loadPage"
+        android:textColor="@color/colorValues"
+        android:padding="5dp"
+        android:visibility="gone"
+        style="@style/textStyle"  />
+
+    <Button
+        android:id="@+id/time_sales_button"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:onClick="loadPage"
+        style="@style/textStyle"
+        android:textColor="?attr/colorValues"
+        android:background="@drawable/borderlayout"
+        android:text="@string/time_sales"
+        android:padding="5dp" />
+
+    <Button
+        android:id="@+id/sectors_button"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="?attr/colorValues"
+        android:onClick="loadPage"
+        android:background="@drawable/borderlayout"
+        android:text="@string/sectors"
+        android:padding="5dp"
+        style="@style/textStyle" />
+
+    <Button
+        android:id="@+id/tops_button"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderlayout"
+        android:text="@string/summary"
+        android:padding="5dp"
+        android:textColor="?attr/colorValues"
+        android:onClick="loadPage"
+        style="@style/textStyle" />
+
+</LinearLayout>

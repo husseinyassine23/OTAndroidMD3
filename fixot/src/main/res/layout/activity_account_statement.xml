@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/rootLayout"
+    android:background="?attr/colorLight"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footer"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layoutDirection="ltr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorDarkHeader"
+            android:elevation="4dp"
+            android:title="null">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                android:padding="@dimen/padding"
+                android:onClick="back"/>
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/padding"
+                android:visibility="gone"
+                android:textColor="?attr/colorDark" />
+
+            <TextView
+                android:id="@+id/market_state_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/market_status_height"
+                android:layout_gravity="end|center_vertical"
+                android:gravity="center_vertical|center_horizontal"
+                android:elevation="6dp"
+                android:paddingStart="@dimen/log_out_padding"
+                android:paddingEnd="@dimen/log_out_padding"
+                android:paddingBottom="2dp"
+                android:layout_marginStart="@dimen/mini_margin"
+                android:layout_marginEnd="@dimen/mini_margin"
+                android:background="@drawable/open_market_status"
+                android:textColor="@color/white" />
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/rlUserHeader"
+            android:padding="@dimen/mini_padding"
+            android:background="?attr/colorMedium"
+            android:minHeight="@dimen/header_height"
+            android:layout_height="wrap_content" >
+
+            <Spinner
+                android:id="@+id/spSubAccounts"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/margin_top_bottom"
+                android:layout_marginEnd="@dimen/margin_top_bottom"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:tint="?attr/colorPrimaryDark"
+                android:layout_margin="@dimen/mini_margin"
+                android:rotation="270"
+                android:src="@drawable/back" />
+
+        </RelativeLayout>
+
+
+        <RadioGroup
+            android:id="@+id/rgAccounts"
+            android:weightSum="2"
+            android:padding="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <RadioButton
+                android:id="@+id/rbReport"
+                android:textSize="@dimen/normal"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorDark"
+                android:layout_marginStart="@dimen/mini_margin"
+                android:layout_marginEnd="@dimen/margin_top_bottom"
+                android:text="@string/account_statement_title"
+                android:buttonTint="@color/colorDark"
+                android:layout_width="wrap_content"
+                android:checked="true"
+                android:layout_height="match_parent" />
+
+            <RadioButton
+                android:id="@+id/rbGroupedReport"
+                android:textSize="@dimen/normal"
+                android:textColor="@color/colorDark"
+                android:layout_gravity="center_vertical"
+                android:buttonTint="@color/colorDark"
+                android:layout_marginStart="@dimen/margin_top_bottom"
+                android:text="@string/account_statement_grp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:id="@+id/llDate"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorValues"
+                android:padding="@dimen/padding"
+                android:text="@string/to_date"
+                android:visibility="gone"
+                android:textSize="@dimen/normal"/>
+
+            <TextView
+                android:id="@+id/tvToDate"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_gravity="center"
+                android:padding="@dimen/mini_padding"
+                android:text="@string/select_date"
+                android:gravity="center"
+                android:textColor="@color/colorValues"
+                android:background="@drawable/border_edit_text"
+                android:layout_height="@dimen/button_height" />
+
+            <Button
+                android:id="@+id/btAccountStatement"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/mini_margin"
+                android:background="@color/colorDark"
+                android:elevation="@dimen/button_elevation"
+                android:padding="@dimen/mini_padding"
+                android:text="@string/generate"
+                android:textColor="@color/colorLight"
+                android:textSize="@dimen/small" />
+
+        </LinearLayout>
+
+
+
+        <WebView
+            android:background="?attr/colorLight"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/wvData"/>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/menu_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

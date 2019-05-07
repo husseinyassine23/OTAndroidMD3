@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/rootLayout"
+    android:background="?attr/colorLight"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layoutDirection="ltr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorDarkHeader"
+        android:elevation="4dp"
+        android:title="null">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:padding="@dimen/padding"
+            android:onClick="back"/>
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding"
+            android:visibility="gone"
+            android:textColor="?attr/colorDark" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical|end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/market_state_value_textview"
+                android:elevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/market_status_height"
+                android:layout_gravity="center_vertical|end"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_marginStart="@dimen/mini_margin"
+                android:layout_marginEnd="@dimen/mini_margin"
+                android:paddingStart="@dimen/log_out_padding"
+                android:paddingEnd="@dimen/log_out_padding"
+                android:paddingBottom="2dp"
+                android:background="@drawable/open_market_status"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/market_time_value_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/mini_margin"
+                android:visibility="gone"
+                android:layout_gravity="center_vertical|end"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="2dp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorLight">
+
+
+        <TextView
+            android:id="@+id/stockName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/mini_margin"
+            android:layout_marginStart="@dimen/mini_margin"
+            android:layout_toStartOf="@+id/ivFavorite"
+            android:padding="@dimen/mini_padding"
+            android:textColor="?attr/colorDark"
+            android:textSize="@dimen/normal"
+            android:textStyle="bold" />
+
+
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:visibility="visible"
+            android:layout_centerVertical="true"
+            android:tint="?attr/colorDark"
+            android:padding="@dimen/mini_padding"
+            android:src="@drawable/add_to_favorites" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorMedium"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/colorMedium"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btSell"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/mini_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginStart="@dimen/mini_margin"
+                android:layout_marginTop="@dimen/mini_margin"
+                android:layout_weight="2"
+                android:background="@color/red_color"
+                android:onClick="goToTrade"
+                android:padding="@dimen/mini_padding"
+                android:text="@string/sell"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small" />
+
+            <Button
+                android:id="@+id/btBuy"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/mini_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/mini_margin"
+                android:layout_weight="2"
+                android:background="@color/green_color"
+                android:onClick="goToTrade"
+                android:padding="@dimen/mini_padding"
+                android:text="@string/buy_title"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="?attr/colorLight">
+    </LinearLayout>
+
+    <include
+        layout="@layout/order_book_header"
+        android:id="@+id/orders_header"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layoutDirection="ltr"
+        android:layout_height="wrap_content" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/orders_header"
+        android:layout_above="@+id/footer"
+        android:background="?attr/colorLight"
+        android:layoutDirection="ltr"
+        android:layout_height="match_parent">
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layoutDirection="ltr"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/rvOrders"
+        android:background="?attr/colorLight"
+        android:layout_height="match_parent"/>
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/menu_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_alignParentBottom="true" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+</LinearLayout>

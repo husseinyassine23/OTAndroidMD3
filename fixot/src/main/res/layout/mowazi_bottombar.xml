@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/mowazi_colorPrimaryDark"
+    android:layout_height="match_parent">
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="loadPagebottombar"
+        android:background="@android:color/transparent"
+        android:src="@drawable/hometwo"
+        android:padding="@dimen/mini_padding"
+        android:id="@+id/home"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/mini_padding"
+        android:onClick="loadPagebottombar"
+        android:background="@android:color/transparent"
+        android:src="@drawable/favorite_bar"
+        android:visibility="gone"
+        android:id="@+id/favorite"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/mini_padding"
+        android:onClick="loadPagebottombar"
+        android:src="@drawable/my_trades_bar"
+        android:background="@android:color/transparent"
+        android:id="@+id/trade"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/mini_padding"
+        android:onClick="loadPagebottombar"
+        android:background="@android:color/transparent"
+        android:layout_weight="1"
+        android:src="@drawable/my_orders_bar"
+        android:id="@+id/order"/>
+
+</LinearLayout>

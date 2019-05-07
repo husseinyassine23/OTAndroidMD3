@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        >
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/mowazi_on" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="5dp"
+                android:text="Date"
+                android:layout_toStartOf="@+id/img"
+                android:textColor="@color/mowazi_dark_blue"
+                android:textSize="@dimen/small" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/img"
+                android:gravity="start"
+                android:layout_below="@+id/date"
+                android:background="@color/white"
+                android:text="title"
+                android:padding="5dp"
+                android:textColor="@color/mowazi_dark_blue"
+                android:textSize="@dimen/small" />
+
+
+
+            <ImageView
+                android:id="@+id/shareimg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginEnd="4dp"
+                android:layout_below="@+id/title"
+                android:layout_alignParentStart="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/share" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

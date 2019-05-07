@@ -1,0 +1,150 @@
+package com.ids.fixot.activities;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.ids.fixot.Actions;
+import com.ids.fixot.LocalUtils;
+import com.ids.fixot.MyApplication;
+import com.ids.fixot.R;
+
+import java.util.Calendar;
+
+import static com.ids.fixot.MyApplication.lang;
+
+public class MoreActivity extends AppCompatActivity {
+
+    ImageView ivBack;
+    Toolbar myToolbar;
+    TextView tvLogout;
+    RelativeLayout rootLayout, rlMowazi , rlSectors , rlTops , rlNews , rlLinks , rlChangePassword , rlSettings ;
+    private boolean started = false;
+
+    public MoreActivity() {
+        LocalUtils.updateConfig(this);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Actions.setActivityTheme(this);
+        Actions.setLocal(MyApplication.lang, this);
+        setContentView(R.layout.activity_more);
+        Actions.initializeBugsTracking(this);
+
+        Actions.showHideFooter(this);
+        findViews();
+
+        started = true;
+
+        Actions.initializeToolBar(getString(R.string.menu_more), MoreActivity.this);
+
+        Actions.overrideFonts(this, rootLayout, false);
+
+        tvLogout.setTypeface((lang == MyApplication.ARABIC) ? MyApplication.droidbold : MyApplication.giloryBold);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            Runtime.getRuntime().gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void back(View v){
+        finish();
+    }
+
+    public void goTo(View v){
+        Actions.goTo(this, v);
+    }
+
+
+    private void findViews(){
+
+        rootLayout = findViewById(R.id.rootLayout);
+        myToolbar = findViewById(R.id.my_toolbar);
+        ivBack = myToolbar.findViewById(R.id.ivBack);
+        ivBack.setVisibility(View.GONE);
+
+        tvLogout = myToolbar.findViewById(R.id.tvLogout);
+        tvLogout.setOnClickListener(v -> Actions.logout(MoreActivity.this));
+
+        rlMowazi = findViewById(R.id.rlMowazi);
+        rlMowazi.setVisibility(MyApplication.showMowazi ? View.VISIBLE : View.GONE);
+
+        rlSectors = findViewById(R.id.rlSectors);
+        rlTops = findViewById(R.id.rlTops);
+        rlNews = findViewById(R.id.rlNews);
+        rlLinks = findViewById(R.id.rlLinks);
+        rlChangePassword = findViewById(R.id.rlChangePassword);
+        rlSettings = findViewById(R.id.rlSettings);
+
+        if(MyApplication.showOTC){
+            rlSectors.setVisibility(View.GONE);
+
+            rlTops.setBackgroundColor(ContextCompat.getColor(this , android.R.color.transparent));
+            rlNews.setBackgroundColor(ContextCompat.getColor(this, MyApplication.mshared.getBoolean(this.getResources().getString(R.string.normal_theme), true) ?  R.color.colorLight  : R.color.colorLightTheme));
+            rlLinks.setBackgroundColor(ContextCompat.getColor(this , android.R.color.transparent));
+            rlChangePassword.setBackgroundColor(ContextCompat.getColor(this, MyApplication.mshared.getBoolean(this.getResources().getString(R.string.normal_theme), true) ?  R.color.colorLight  : R.color.colorLightTheme));
+            rlSettings.setBackgroundColor(ContextCompat.getColor(this , android.R.color.transparent));
+        }
+    }
+
+    public void loadFooter(View v){
+
+        Actions.loadFooter(this, v);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Actions.checkSession(this);
+
+        Actions.checkLanguage(this, started);
+
+        //Actions.InitializeSessionService(this);
+//Actions.InitializeMarketService(this);
+        Actions.InitializeSessionServiceV2(this);
+        Actions.InitializeMarketServiceV2(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Actions.unregisterMarketReceiver(this);
+        Actions.unregisterSessionReceiver(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApplication.sessionOut = Calendar.getInstance();
+    }
+
+//    @Override
+//    public void onBackPressed() {
+//        //super.onBackPressed();
+//    }
+
+    @Override
+    public void onBackPressed() {
+        Actions.exitApp(this);
+    }
+}

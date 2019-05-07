@@ -1,0 +1,254 @@
+package com.ids.fixot.activities;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.ids.fixot.Actions;
+import com.ids.fixot.ConnectionRequests;
+import com.ids.fixot.GlobalFunctions;
+import com.ids.fixot.LocalUtils;
+import com.ids.fixot.MyApplication;
+import com.ids.fixot.R;
+import com.ids.fixot.model.WebItem;
+
+import java.util.Calendar;
+import java.util.HashMap;
+
+/**
+ * Created by user on 10/2/2017.
+ */
+
+public class WebPageActivity extends AppCompatActivity {
+
+    RelativeLayout rootLayout;
+    WebView wvDetails;
+    private WebItem webItem;
+    int websiteContentId = -1;
+    private boolean started = false;
+
+    public WebPageActivity() {
+        LocalUtils.updateConfig(this);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Actions.setActivityTheme(this);
+        Actions.setLocal(MyApplication.lang, this);
+        setContentView(R.layout.activity_webpage);
+        Actions.initializeBugsTracking(this);
+
+        Actions.initializeToolBar(getString(R.string.links), WebPageActivity.this);
+
+        findViews();
+
+        started = true;
+
+
+        if (getIntent().hasExtra("webItem")) {
+
+            webItem = getIntent().getExtras().getParcelable("webItem");
+            LinearLayout footer = (LinearLayout) findViewById(R.id.footer);
+            footer.setVisibility(View.GONE);
+
+            try {
+                if (MyApplication.lang == MyApplication.ARABIC) {
+
+                    Actions.initializeToolBar(webItem.getTitleAr(), WebPageActivity.this);
+
+                    wvDetails.loadDataWithBaseURL("file:///android_asset/", "<html><head>\n" +
+                            "<meta name=\"viewport\" content=\"width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;\"/>" +
+                            "<style type=\"text/css\">\n" +
+                            "@font-face {\n" +
+                            "    font-family: MyFont;\n" +
+                            "    src: url(\"file:///android_asset/DroidKufiRegular.ttf\")\n" +
+                            "}\n" +
+                            "body {\n" +
+                            "    font-family: MyFont;\n" +
+                            "    text-align: justify;\n" +
+                            "}\n" +
+                            "</style><body dir=\"rtl\" >" + webItem.getContentAr() + "</body></html>", "text/html", "UTF-8", "");
+                } else {
+
+                    Actions.initializeToolBar(webItem.getTitleEn(), WebPageActivity.this);
+
+                    wvDetails.loadDataWithBaseURL("file:///android_asset/", "<html><head>\n" +
+                            "<meta name=\"viewport\" content=\"width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;\"/>" +
+                            "<style type=\"text/css\">\n" +
+                            "@font-face {\n" +
+                            "    font-family: MyFont;\n" +
+                            "    src: url(\"file:///android_asset/GilroyLight.ttf\")\n" +
+                            "}\n" +
+                            "body {\n" +
+                            "    font-family: MyFont;\n" +
+                            "    text-align: justify;\n" +
+                            "}\n" +
+                            "</style><body>" + webItem.getContentEn() + "</body></html>", "text/html", "UTF-8", "");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+
+
+            Actions.showHideFooter(this);
+            websiteContentId = getIntent().getExtras().getInt("websiteContentId");
+            new GetWebItem().execute();
+        }
+
+
+        Actions.overrideFonts(this, rootLayout, false);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            Runtime.getRuntime().gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void loadFooter(View v) {
+
+        Actions.loadFooter(this, v);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Actions.checkSession(this);
+        Actions.checkLanguage(this, started);
+
+        //Actions.InitializeSessionService(this);
+        Actions.InitializeSessionServiceV2(this);
+        //Actions.InitializeMarketService(this);
+        Actions.InitializeMarketServiceV2(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Actions.unregisterMarketReceiver(this);
+        Actions.unregisterSessionReceiver(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApplication.sessionOut = Calendar.getInstance();
+    }
+
+    private void findViews() {
+
+        rootLayout = findViewById(R.id.rootLayout);
+        wvDetails = findViewById(R.id.wvDetails);
+    }
+
+    public void back(View v) {
+        finish();
+    }
+
+    //<editor-fold desc="Get Web Item">
+    private class GetWebItem extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            MyApplication.showDialog(WebPageActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result = "";
+            String url = MyApplication.link + MyApplication.GetSiteMapData.getValue() ; // this method uses key after login
+
+            HashMap<String, String> parameters = new HashMap<String, String>();
+
+            parameters.put("key", getResources().getString(R.string.beforekey));
+            parameters.put("Language", MyApplication.lang + "");
+            parameters.put("websiteContentId", "" + websiteContentId);
+
+            try {
+                result = ConnectionRequests.GET(url, WebPageActivity.this, parameters);
+                Log.wtf("result", result);
+                webItem = GlobalFunctions.GetWebItems(result).get(0);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                if(MyApplication.isDebug) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.error_code) + MyApplication.GetSiteMapData.getKey(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            MyApplication.dismiss();
+
+            try {
+                if (MyApplication.lang == MyApplication.ARABIC) {
+
+                    wvDetails.loadDataWithBaseURL("file:///android_asset/", "<html><head>\n" +
+                            "<meta name=\"viewport\" content=\"width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;\"/>" +
+                            "<style type=\"text/css\">\n" +
+                            "@font-face {\n" +
+                            "    font-family: MyFont;\n" +
+                            "    src: url(\"file:///android_asset/DroidKufiRegular.ttf\")\n" +
+                            "}\n" +
+                            "body {\n" +
+                            "    font-family: MyFont;\n" +
+                            "    text-align: justify;\n" +
+                            "}\n" +
+                            "</style><body  dir=\"rtl\" >" + webItem.getContentAr() + "</body></html>", "text/html", "UTF-8", "");
+                } else {
+                    wvDetails.loadDataWithBaseURL("file:///android_asset/", "<html><head>\n" +
+                            "<meta name=\"viewport\" content=\"width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;\"/>" +
+                            "<style type=\"text/css\">\n" +
+                            "@font-face {\n" +
+                            "    font-family: MyFont;\n" +
+                            "    src: url(\"file:///android_asset/GilroyLight.ttf\")\n" +
+                            "}\n" +
+                            "body {\n" +
+                            "    font-family: MyFont;\n" +
+                            "    text-align: justify;\n" +
+                            "}\n" +
+                            "</style><body>" + webItem.getContentEn() + "</body></html>", "text/html", "UTF-8", "");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+    //</editor-fold>
+
+}

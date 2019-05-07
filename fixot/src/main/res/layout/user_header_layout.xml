@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/rlUserHeader"
+    android:padding="@dimen/padding"
+    android:background="?attr/colorMedium"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvUserName"
+        style="@style/textStyle"
+        android:textColor="?attr/colorDark"
+        android:textSize="@dimen/header"
+        android:layout_centerVertical="true"
+        android:textAlignment="viewStart"
+        android:layout_width="match_parent"
+        android:layout_toStartOf="@+id/tvPortfolioNumber"
+        android:layout_height="wrap_content"  />
+
+    <TextView
+        android:id="@+id/tvPortfolioNumber"
+        style="@style/textStyle"
+        android:textColor="?attr/colorDark"
+        android:textSize="@dimen/header"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="@dimen/mini_margin"
+        android:layout_marginEnd="@dimen/mini_margin"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/ivPortfolio"  />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/ivPortfolio"
+        android:src="@drawable/portfolio_footer"
+        android:tint="?attr/colorDark"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

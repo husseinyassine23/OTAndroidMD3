@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/rlLayout"
+    android:background="?attr/colorLight"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true" >
+    <!--android:background="?attr/colorDark"-->
+    <!--android:background="@color/white"-->
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layoutDirection="ltr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorDarkHeader"
+        android:elevation="4dp"
+        android:title="null">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:padding="@dimen/padding"
+            android:onClick="back"/>
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding"
+            android:visibility="gone"
+            android:textColor="?attr/colorValues" />
+
+        <TextView
+            android:id="@+id/market_state_value_textview"
+            android:elevation="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/market_status_height"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingStart="@dimen/log_out_padding"
+            android:paddingEnd="@dimen/log_out_padding"
+            android:paddingBottom="2dp"
+            android:layout_marginStart="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/mini_margin"
+            android:background="@drawable/open_market_status"
+            android:textColor="@color/white" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:padding="@dimen/padding"
+            android:background="?attr/colorLight"
+            android:id="@+id/layoutChangeLanguage"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal"
+                android:textAlignment="viewStart"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/rgLanguage"
+                android:textColor="?attr/colorValues"
+                android:text="@string/change_language"  />
+
+
+            <RadioGroup
+                android:id="@+id/rgLanguage"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/mini_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/rbArabic"
+                    android:layout_marginEnd="@dimen/mini_margin"
+                    android:textSize="@dimen/normal"
+                    android:textColor="?attr/colorValues"
+                    android:buttonTint="?attr/colorDark"
+                    android:text="عربي"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rbEnglish"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/normal"
+                    android:textColor="?attr/colorValues"
+                    android:buttonTint="?attr/colorDark"
+                    android:text="English"/>
+
+            </RadioGroup>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:padding="@dimen/padding"
+            android:background="?attr/evenColor"
+            android:id="@+id/layoutPushNotification">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/normal"
+                android:textColor="?attr/colorValues"
+                android:text="@string/push_notification"
+                android:gravity="start" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/mini_margin"
+                android:id="@+id/switchNot"
+                android:checked="true"
+                android:thumbTint="?attr/colorDark"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layoutThemes"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:background="?attr/colorLight"
+            android:padding="@dimen/padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="start"
+                android:text="@string/Dark_Theme"
+                android:textColor="?attr/colorValues"
+                android:textSize="@dimen/normal" />
+
+            <Switch
+                android:id="@+id/switchDarckTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/mini_margin"
+                android:checked="false"
+                android:thumbTint="?attr/colorDark" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:padding="@dimen/padding"
+            android:background="?attr/evenColor"
+            android:id="@+id/layoutFingerPrint">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/normal"
+                android:textColor="?attr/colorValues"
+                android:text="@string/fingerprint_title"
+                android:gravity="start" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/mini_margin"
+                android:id="@+id/switchFingerprint"
+                android:checked="true"
+                android:thumbTint="?attr/colorDark"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layoutVersionNumber"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:background="?attr/evenColor"
+            android:padding="@dimen/padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="start"
+                android:text="@string/version_number"
+                android:textColor="?attr/colorValues" />
+
+            <TextView
+                android:id="@+id/tvVersionNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/normal"
+                android:padding="@dimen/padding"
+                android:showText="true"
+                android:textColor="?attr/colorValues" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/changePassword"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="@dimen/settings_row_height"
+            android:padding="@dimen/padding"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"  >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="start"
+                android:layout_alignParentStart="true"
+                android:textColor="?attr/colorValues"
+                android:text="@string/change_password" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivArrow"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:tint="@color/colorValues"
+                android:rotation="180"
+                android:src="@drawable/back"/>
+        </RelativeLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="100dp"
+            android:id="@+id/layoutSignIn"
+            android:visibility="visible"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_gravity="center_vertical"
+
+                android:gravity="center"
+                android:textSize="@dimen/small"
+                android:textColor="@color/white"
+                android:id="@+id/tvSignIn"
+
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/menu_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

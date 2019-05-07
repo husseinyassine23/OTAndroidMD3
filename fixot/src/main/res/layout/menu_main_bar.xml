@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="@color/colorDark"
+    android:layoutDirection="ltr"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:id="@+id/my_toolbar"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tvLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:gravity="center"
+        android:paddingStart="@dimen/padding"
+        android:paddingEnd="@dimen/padding"
+        android:text="@string/logout"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="@dimen/logout_dimension" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tvLogout"
+        android:layout_toStartOf="@+id/market_state_value_textview"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/broker_name"/>
+
+    <TextView
+        android:id="@+id/market_state_value_textview"
+        android:elevation="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="@dimen/log_out_padding"
+        android:paddingEnd="@dimen/log_out_padding"
+        android:layout_margin="@dimen/mini_margin"
+        android:background="@drawable/open_market_status"
+        android:textColor="@color/white" />
+</RelativeLayout>

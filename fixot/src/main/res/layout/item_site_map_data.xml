@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:id="@+id/llItem"
+    android:background="@drawable/borderlayout"
+    android:layout_width="match_parent"
+    android:minHeight="@dimen/button_height"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_margin="@dimen/small"
+        android:padding="5dp"
+        android:text="@string/login_contactus"
+        android:textColor="?attr/colorValues" />
+
+    <View
+        android:layout_width="1dp"
+        android:id="@+id/separator"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorValues" />
+
+</LinearLayout>

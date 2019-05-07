@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="?attr/colorLight"
+    android:id="@+id/rootLayout"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layoutDirection="ltr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorDarkHeader"
+        android:elevation="4dp"
+        android:title="null">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:padding="@dimen/padding"
+            android:onClick="back"/>
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding"
+            android:visibility="gone"
+            android:textColor="@color/colorDark" />
+
+        <TextView
+            android:id="@+id/market_state_value_textview"
+            android:elevation="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/market_status_height"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingStart="@dimen/log_out_padding"
+            android:paddingEnd="@dimen/log_out_padding"
+            android:paddingBottom="2dp"
+            android:layout_marginStart="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/mini_margin"
+            android:background="@drawable/open_market_status"
+            android:textColor="@color/white" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footer"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_margin="2dp" >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvNews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/tvNoData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/no_data"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/menu_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/swipeContainer" />
+</RelativeLayout>

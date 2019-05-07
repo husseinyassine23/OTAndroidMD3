@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/item_height"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:id="@+id/llLayout"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/tvStockSymbol"
+        style="@style/textListHeader"
+        android:textAlignment="viewStart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:textColor="?attr/colorValues"
+        android:layout_weight="0.4"
+        android:padding="5dp"
+        android:text="@string/symbol"  />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
+        android:textColor="?attr/colorValues"
+        android:textDirection="ltr"
+        android:text="@string/price"
+        style="@style/textListHeader"/>
+
+    <TextView
+        android:id="@+id/tvTradingItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.47"
+        android:visibility="gone"
+        android:textDirection="ltr"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_vertical"
+        android:textColor="?attr/colorValues"
+        android:padding="5dp"
+        android:text="@string/trading_value"
+        style="@style/textListHeader"/>
+
+    <TextView
+        android:id="@+id/tvChange"
+        android:layout_width="0dp"
+        android:textDirection="ltr"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.32"
+        android:gravity="center_horizontal"
+        android:textColor="?attr/colorValues"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
+        android:text="@string/change_title"
+        style="@style/textListHeader"/>
+
+    <TextView
+        android:id="@+id/tvChangePercent"
+        style="@style/textListHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:gravity="center_horizontal"
+        android:textDirection="ltr"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
+        android:text="@string/change_weight_percent_title" />
+
+</LinearLayout>

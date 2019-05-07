@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="?attr/colorLight"
+    android:layout_height="match_parent" >
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent" >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/btClose"
+                android:layout_width="@dimen/settings_row_height"
+                android:layout_height="@dimen/trades_ticker_height"
+                android:background="?attr/colorDark"
+                android:layout_gravity="end"
+                android:textColor="?attr/colorLight"
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="20sp"
+                android:layout_marginTop="20sp"
+                android:text="@string/close" />
+
+
+            <TextView
+                android:id="@+id/tv_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30sp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorDark"
+                android:text="@string/registerOnAlMowazi" />
+
+            <EditText
+                android:id="@+id/etTradingNumber"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginStart="30sp"
+                android:layout_marginTop="30sp"
+                android:layout_marginEnd="30sp"
+                android:layout_marginBottom="10sp"
+                android:background="@drawable/edittext_border"
+                android:hint="@string/trading_number"
+                android:inputType="numberSigned"
+                android:padding="5dp"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/edittext_border"
+                android:padding="5dp"
+                android:layout_marginStart="30sp"
+                android:layout_marginEnd="30sp"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp"
+                android:layout_marginBottom="10sp" />
+
+            <EditText
+                android:id="@+id/etFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/edittext_border"
+                android:padding="5dp"
+                android:layout_marginStart="30sp"
+                android:layout_marginEnd="30sp"
+                android:hint="@string/first_name"
+                android:inputType="text"
+                android:textSize="14sp"
+                android:layout_marginBottom="10sp" />
+
+            <EditText
+                android:id="@+id/etLastName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/edittext_border"
+                android:padding="5dp"
+                android:layout_marginStart="30sp"
+                android:layout_marginEnd="30sp"
+                android:hint="@string/last_name"
+                android:inputType="text"
+                android:textSize="14sp"
+                android:layout_marginBottom="10sp" />
+
+            <EditText
+                android:id="@+id/etMobileNumber"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/edittext_border"
+                android:padding="5dp"
+                android:layout_marginStart="30sp"
+                android:layout_marginEnd="30sp"
+                android:hint="@string/mobile_number"
+                android:textSize="14sp"
+                android:inputType="phone"
+                android:layout_marginBottom="20sp" />
+
+            <Button
+                android:id="@+id/btSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:background="?attr/colorDark"
+                android:textColor="?attr/colorLight"
+                android:padding="@dimen/mini_padding"
+                android:layout_marginStart="30sp"
+                android:layout_marginEnd="30sp"
+                android:layout_marginBottom="60sp"
+                android:text="@string/submit" />
+            <!--android:onClick="submitRegisterViaMowazi"-->
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

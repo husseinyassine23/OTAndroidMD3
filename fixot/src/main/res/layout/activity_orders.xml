@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/rootLayout"
+    android:background="?attr/colorLight"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footer"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layoutDirection="ltr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorDarkHeader"
+            android:elevation="4dp"
+            android:title="null">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                android:padding="@dimen/padding"
+                android:onClick="back"/>
+
+            <TextView
+                android:id="@+id/tvLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="center"
+                android:paddingStart="@dimen/padding"
+                android:paddingEnd="@dimen/padding"
+                android:text="@string/logout"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/logout_dimension" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/padding"
+                android:visibility="gone"
+                android:textColor="@color/colorDark" />
+
+            <TextView
+                android:id="@+id/market_state_value_textview"
+                android:elevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/market_status_height"
+                android:layout_gravity="end|center_vertical"
+                android:gravity="center_vertical|center_horizontal"
+                android:paddingStart="@dimen/log_out_padding"
+                android:paddingEnd="@dimen/log_out_padding"
+                android:paddingBottom="2dp"
+                android:layout_marginStart="@dimen/mini_margin"
+                android:layout_marginEnd="@dimen/mini_margin"
+                android:background="@drawable/open_market_status"
+                android:textColor="@color/white" />
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/rlUserHeader"
+            android:padding="@dimen/mini_padding"
+            android:background="?attr/colorMedium"
+            android:minHeight="@dimen/header_height"
+            android:layout_height="wrap_content" >
+
+            <Spinner
+                android:id="@+id/spSubAccounts"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/margin_top_bottom"
+                android:layout_marginEnd="@dimen/margin_top_bottom"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:tint="?attr/colorPrimaryDark"
+                android:layout_margin="@dimen/mini_margin"
+                android:rotation="270"
+                android:src="@drawable/back" />
+
+        </RelativeLayout>
+
+
+        <include
+            layout="@layout/orders_header"
+            android:id="@+id/orders_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header_height" />
+        <!--wrap_content-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"  >
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvOrders"
+                android:background="?attr/colorLight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/menu_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

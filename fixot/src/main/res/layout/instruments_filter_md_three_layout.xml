@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="?attr/colorMedium"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/llTab"
+        android:orientation="horizontal"
+        android:background="@drawable/instruments_border"
+        android:paddingTop="4sp"
+        android:paddingBottom="4sp"
+        android:paddingLeft="8sp"
+        android:paddingRight="8sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_marginEnd="4sp"
+            android:paddingEnd="4sp"
+            android:paddingStart="4sp"
+            android:background="@drawable/border_markets"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/spMarket"
+                android:layout_width="70sp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="2sp"
+                android:layout_marginBottom="2sp"
+                android:layout_marginEnd="2sp" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="10dp"
+                android:layout_height="12dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:tint="?attr/colorDark"
+                android:rotation="270"
+                android:scaleType="fitCenter"
+                android:layout_marginEnd="4sp"
+                android:layout_marginStart="4sp"
+                android:visibility="visible"
+                android:src="@drawable/back" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RV_instrument"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>
