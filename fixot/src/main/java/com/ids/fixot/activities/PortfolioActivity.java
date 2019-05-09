@@ -2,7 +2,9 @@ package com.ids.fixot.activities;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -31,10 +34,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ids.fixot.Actions;
+import com.ids.fixot.AppService;
 import com.ids.fixot.BuildConfig;
 import com.ids.fixot.ConnectionRequests;
 import com.ids.fixot.GlobalFunctions;
 import com.ids.fixot.LocalUtils;
+import com.ids.fixot.MarketStatusReceiver.MarketStatusListener;
+import com.ids.fixot.MarketStatusReceiver.marketStatusReceiver;
 import com.ids.fixot.MyApplication;
 import com.ids.fixot.R;
 import com.ids.fixot.adapters.PortoflioStockForwardAdapter;
@@ -60,7 +66,9 @@ import static com.ids.fixot.MyApplication.lang;
  * Created by user on 7/21/2017.
  */
 
-public class PortfolioActivity extends AppCompatActivity implements PortoflioStockForwardAdapter.RecyclerViewOnItemClickListener {
+public class PortfolioActivity extends AppCompatActivity implements PortoflioStockForwardAdapter.RecyclerViewOnItemClickListener , MarketStatusListener {
+
+    private BroadcastReceiver receiver;
 
 
     Toolbar myToolbar;
@@ -92,8 +100,25 @@ public class PortfolioActivity extends AppCompatActivity implements PortoflioSto
     }
 
     @Override
+    public void refreshMarketTime(String status,String time,Integer color){
+
+        final TextView marketstatustxt = findViewById(R.id.market_state_value_textview);
+        final LinearLayout llmarketstatus = findViewById(R.id.ll_market_state);
+        final TextView markettime =  findViewById(R.id.market_time_value_textview);
+
+        marketstatustxt.setText(status);
+        markettime.setText(time);
+        llmarketstatus.setBackground(ContextCompat.getDrawable(this,color));
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        receiver = new marketStatusReceiver(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(AppService.ACTION_MARKET_SERVICE));
+
         Actions.setActivityTheme(this);
         Actions.setLocal(MyApplication.lang, this);
         setContentView(R.layout.activity_portfolio);
@@ -267,7 +292,7 @@ public class PortfolioActivity extends AppCompatActivity implements PortoflioSto
         Actions.checkLanguage(this, started);
 
         Actions.InitializeSessionServiceV2(this);
-        Actions.InitializeMarketServiceV2(this);
+       // Actions.InitializeMarketServiceV2(this);
     }
 
     @Override

@@ -49,5 +49,6 @@
 
     <dimen name="mowazi_top_width">180dp</dimen>
     <dimen name="mowazi_top_height">35dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

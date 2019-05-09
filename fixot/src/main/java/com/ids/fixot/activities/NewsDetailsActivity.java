@@ -3,20 +3,28 @@ package com.ids.fixot.activities;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ids.fixot.Actions;
+import com.ids.fixot.AppService;
 import com.ids.fixot.LocalUtils;
+import com.ids.fixot.MarketStatusReceiver.MarketStatusListener;
+import com.ids.fixot.MarketStatusReceiver.marketStatusReceiver;
 import com.ids.fixot.MyApplication;
 import com.ids.fixot.R;
 import com.ids.fixot.model.NewsItem;
@@ -27,7 +35,10 @@ import java.util.Calendar;
  * Created by user on 7/24/2017.
  */
 
-public class NewsDetailsActivity extends AppCompatActivity {
+public class NewsDetailsActivity extends AppCompatActivity implements MarketStatusListener {
+
+    private BroadcastReceiver receiver;
+
 
     public NewsDetailsActivity() {
         LocalUtils.updateConfig(this);
@@ -40,8 +51,25 @@ public class NewsDetailsActivity extends AppCompatActivity {
     private boolean started = false;
 
     @Override
+    public void refreshMarketTime(String status,String time,Integer color){
+
+        final TextView marketstatustxt = findViewById(R.id.market_state_value_textview);
+        final LinearLayout llmarketstatus = findViewById(R.id.ll_market_state);
+        final TextView markettime =  findViewById(R.id.market_time_value_textview);
+
+        marketstatustxt.setText(status);
+        markettime.setText(time);
+        llmarketstatus.setBackground(ContextCompat.getDrawable(this,color));
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        receiver = new marketStatusReceiver(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(AppService.ACTION_MARKET_SERVICE));
+
         Actions.setActivityTheme(this);
         Actions.setLocal(MyApplication.lang, this);
         setContentView(R.layout.activity_news_details);
@@ -201,7 +229,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
 //Actions.InitializeSessionService(this);
 //Actions.InitializeMarketService(this);
         Actions.InitializeSessionServiceV2(this);
-        Actions.InitializeMarketServiceV2(this);
+        //Actions.InitializeMarketServiceV2(this);
     }
 
 

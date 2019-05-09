@@ -1,5 +1,7 @@
 package com.ids.fixot.model;
 
+import com.ids.fixot.MyApplication;
+
 /**
  * Created by Amal on 3/13/2017.
  */
@@ -63,6 +65,12 @@ public class MarketStatus {
 
     public String getStatusDescriptionAr() {
         return StatusDescriptionAr;
+    }
+
+
+    public String getStatusDescription() {
+
+        return MyApplication.lang == MyApplication.ARABIC  ? MyApplication.marketStatus.getStatusDescriptionAr() : MyApplication.marketStatus.getStatusDescriptionEn();
     }
 
     public void setStatusDescriptionAr(String statusDescriptionAr) {

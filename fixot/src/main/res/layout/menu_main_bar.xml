@@ -23,28 +23,11 @@
         android:textColor="@color/white"
         android:textSize="@dimen/logout_dimension" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/tvLogout"
-        android:layout_toStartOf="@+id/market_state_value_textview"
-        android:visibility="gone"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/broker_name"/>
-
-    <TextView
-        android:id="@+id/market_state_value_textview"
-        android:elevation="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|center_vertical"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:layout_alignParentEnd="true"
-        android:paddingStart="@dimen/log_out_padding"
-        android:paddingEnd="@dimen/log_out_padding"
-        android:layout_margin="@dimen/mini_margin"
-        android:background="@drawable/open_market_status"
-        android:textColor="@color/white" />
+    <include
+        layout="@layout/status"
+        android:layout_width="180dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal|center_vertical|end"
+        android:layout_margin="8dp"
+        android:padding="5dp" />
 </RelativeLayout>

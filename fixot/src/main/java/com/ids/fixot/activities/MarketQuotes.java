@@ -1,8 +1,12 @@
 package com.ids.fixot.activities;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,14 +15,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ids.fixot.Actions;
+import com.ids.fixot.AppService;
 import com.ids.fixot.ConnectionRequests;
 import com.ids.fixot.GlobalFunctions;
 import com.ids.fixot.LocalUtils;
+import com.ids.fixot.MarketStatusReceiver.MarketStatusListener;
+import com.ids.fixot.MarketStatusReceiver.marketStatusReceiver;
 import com.ids.fixot.MyApplication;
 import com.ids.fixot.R;
 
@@ -35,7 +43,10 @@ import java.util.Locale;
  * Created by MK on 15/01/2019.
  */
 
-public class MarketQuotes extends AppCompatActivity {
+public class MarketQuotes extends AppCompatActivity implements MarketStatusListener {
+
+    private BroadcastReceiver receiver;
+
 
     public MarketQuotes() {
         LocalUtils.updateConfig(this);
@@ -61,10 +72,27 @@ public class MarketQuotes extends AppCompatActivity {
 
     ArrayList<OffMarketQuotes> allMarketQuotes = new ArrayList<>();
 
+    @Override
+    public void refreshMarketTime(String status,String time,Integer color){
+
+        final TextView marketstatustxt = findViewById(R.id.market_state_value_textview);
+        final LinearLayout llmarketstatus = findViewById(R.id.ll_market_state);
+        final TextView markettime =  findViewById(R.id.market_time_value_textview);
+
+        marketstatustxt.setText(status);
+        markettime.setText(time);
+        llmarketstatus.setBackground(ContextCompat.getDrawable(this,color));
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        receiver = new marketStatusReceiver(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(AppService.ACTION_MARKET_SERVICE));
+
+
         Actions.setActivityTheme(this);
         Actions.setLocal(MyApplication.lang, this);
         setContentView(R.layout.activity_market_quotes);
@@ -105,7 +133,7 @@ public class MarketQuotes extends AppCompatActivity {
 //Actions.InitializeSessionService(this);
 //Actions.InitializeMarketService(this);
         Actions.InitializeSessionServiceV2(this);
-        Actions.InitializeMarketServiceV2(this);
+       // Actions.InitializeMarketServiceV2(this);
     }
 
     @Override

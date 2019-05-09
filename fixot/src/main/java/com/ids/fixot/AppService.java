@@ -97,20 +97,6 @@ public class AppService extends Service {
                             MyApplication.keepAliveTime, TimeUnit.SECONDS, MyApplication.workQueue);
                 }
 
-                /*if (Actions.isReachable()) {
-                    MyApplication.showInternetLossDialog = true;
-                    Log.wtf("There is", "Internet");
-                }else {
-
-                    Log.wtf("There is No", "Internet");
-                    if (MyApplication.showInternetLossDialog){
-                        MyApplication.showInternetLossDialog = false;
-                        Intent i = new Intent(MyApplication.context, ErrorAlertActivity.class);
-                        i.putExtra("serverLoss", true);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        MyApplication.context.startActivity(i);
-                    }
-                }*/
 
                 handler.postDelayed(this, 2000);
             }
@@ -119,21 +105,15 @@ public class AppService extends Service {
         return START_STICKY;
     }
 
-    private void sendBroadcastMarketStatus(String marketstatus) {
+    private void sendBroadcastMarket(String marketstatus,String markettime) {
 
         Intent intent = new Intent(ACTION_MARKET_SERVICE);
         intent.putExtra(EXTRA_MARKET_STATUS, marketstatus);
+        intent.putExtra(EXTRA_MARKET_TIME, markettime);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         Log.wtf("sendBroadcastMarketStatus","ACTION_MARKET_SERVICE");
     }
 
-    private void sendBroadcastMarketTime(String markettime) {
-
-        Intent intent = new Intent(ACTION_MARKET_SERVICE);
-        intent.putExtra(EXTRA_MARKET_TIME, markettime);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-        Log.wtf("sendBroadcastMarketTime","ACTION_MARKET_SERVICE");
-    }
 
     private void sendBroadcastSession(boolean session) {
         Intent intent = new Intent(ACTION_SESSION_SERVICE);
@@ -166,7 +146,6 @@ public class AppService extends Service {
             parameters.put("currentUserSessionID", MyApplication.currentUser.getSessionID() + "");
             parameters.put("key", getResources().getString(R.string.beforekey));
 
-            Log.wtf("GetRealTimeData","url : " + url);
 
             try {
                 result = ConnectionRequests.GET(url, getApplicationContext(), parameters);
@@ -195,12 +174,6 @@ public class AppService extends Service {
             try {
                 MyApplication.marketStatus = GlobalFunctions.GetMarketStatus(s);
 
-                /*if(MyApplication.isDebug){ //testing
-                    MyApplication.marketStatus.setStatusID(MyApplication.MARKET_OPEN);
-                    MyApplication.marketStatus.setStatusDescriptionEn("Open");
-                    MyApplication.marketStatus.setStatusDescriptionAr("مفتوح");
-
-                }*/
 
                     try {
 
@@ -208,7 +181,6 @@ public class AppService extends Service {
 
                     sendBroadcastSession(MyApplication.marketStatus.isSessionChanged());
 
-                    sendBroadcastMarketStatus(MyApplication.marketStatus.getStatusDescriptionAr());
                     try {
 
                         date = marketDateFormat.parse(marketTime);
@@ -217,10 +189,10 @@ public class AppService extends Service {
                     }
 
                     if (MyApplication.marketStatus.getMarketTime().equals("")){
-                        sendBroadcastMarketTime(marketDateFormat.format(date));
+                        sendBroadcastMarket(MyApplication.marketStatus.getStatusDescription(),marketDateFormat.format(date));
                     }
                     else{
-                        sendBroadcastMarketTime("");
+                        sendBroadcastMarket(MyApplication.marketStatus.getStatusDescription(),"");
                     }
 
                 } catch (Exception e) {

@@ -1,6 +1,8 @@
 package com.ids.fixot.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -9,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
@@ -47,10 +50,13 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.ids.fixot.Actions;
+import com.ids.fixot.AppService;
 import com.ids.fixot.BuildConfig;
 import com.ids.fixot.ConnectionRequests;
 import com.ids.fixot.GlobalFunctions;
 import com.ids.fixot.LocalUtils;
+import com.ids.fixot.MarketStatusReceiver.MarketStatusListener;
+import com.ids.fixot.MarketStatusReceiver.marketStatusReceiver;
 import com.ids.fixot.MyApplication;
 import com.ids.fixot.R;
 import com.ids.fixot.adapters.NewsRecyclerAdapter;
@@ -77,7 +83,7 @@ import java.util.HashMap;
 
 import static com.ids.fixot.MyApplication.lang;
 
-public class MarketIndexActivity extends AppCompatActivity implements OnChartGestureListener, OnChartValueSelectedListener {
+public class MarketIndexActivity extends AppCompatActivity implements OnChartGestureListener, OnChartValueSelectedListener , MarketStatusListener {
 
     ImageView ivExpand, ivImage, ivSector;
     private ArrayList<TimeSale> allTrades = new ArrayList<>();
@@ -118,6 +124,8 @@ public class MarketIndexActivity extends AppCompatActivity implements OnChartGes
     ScrollViewExt hsScroll;
     Handler handler;
     Handler timehandler;
+    private BroadcastReceiver receiver;
+
 
     public MarketIndexActivity() {
         LocalUtils.updateConfig(this);
@@ -126,6 +134,11 @@ public class MarketIndexActivity extends AppCompatActivity implements OnChartGes
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        receiver = new marketStatusReceiver(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(AppService.ACTION_MARKET_SERVICE));
+
+
         Actions.setActivityTheme(this);
         Actions.setLocal(MyApplication.lang, this);
 
@@ -153,6 +166,19 @@ public class MarketIndexActivity extends AppCompatActivity implements OnChartGes
                 Actions.stopAppService(MarketIndexActivity.this);
             }
         }, 5000);*/
+}
+
+    @Override
+    public void refreshMarketTime(String status,String time,Integer color){
+
+        final TextView marketstatustxt = findViewById(R.id.market_state_value_textview);
+        final LinearLayout llmarketstatus = findViewById(R.id.ll_market_state);
+        final TextView markettime =  findViewById(R.id.market_time_value_textview);
+
+        marketstatustxt.setText(status);
+        markettime.setText(time);
+        llmarketstatus.setBackground(ContextCompat.getDrawable(this,color));
+
     }
 
     private void findViews() {
@@ -312,7 +338,7 @@ public class MarketIndexActivity extends AppCompatActivity implements OnChartGes
         Actions.checkLanguage(this, started);
 
         Actions.InitializeSessionServiceV2(MarketIndexActivity.this);
-        Actions.InitializeMarketServiceV2(MarketIndexActivity.this);
+       // Actions.InitializeMarketServiceV2(MarketIndexActivity.this);
 
         if (Actions.isNetworkAvailable(this) && !MyApplication.showOTC) {
 

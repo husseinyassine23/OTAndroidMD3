@@ -40,8 +40,8 @@ android {
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 26
-            versionCode 14
-            versionName '9.6'
+            versionCode 15
+            versionName '9.7'
         }
 
         Tijari {
@@ -141,8 +141,8 @@ android {
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 28
-            versionCode 47
-            versionName '10.6'
+            versionCode 48
+            versionName '10.7'
         }
 
         KicOtc {

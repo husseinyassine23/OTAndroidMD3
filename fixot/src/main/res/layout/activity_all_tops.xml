@@ -50,20 +50,13 @@
                         android:textColor="@color/colorDark"
                         android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/market_state_value_textview"
-                        android:elevation="6dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/market_status_height"
-                        android:layout_gravity="end|center_vertical"
-                        android:layout_marginEnd="@dimen/mini_margin"
-                        android:layout_marginStart="@dimen/mini_margin"
-                        android:background="@drawable/open_market_status"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:paddingBottom="2dp"
-                        android:paddingEnd="@dimen/log_out_padding"
-                        android:paddingStart="@dimen/log_out_padding"
-                        android:textColor="@color/white" />
+                    <include
+                        layout="@layout/status"
+                        android:layout_width="180dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal|center_vertical|end"
+                        android:layout_margin="8dp"
+                        android:padding="5dp" />
                 </android.support.v7.widget.Toolbar>
 
                 <LinearLayout

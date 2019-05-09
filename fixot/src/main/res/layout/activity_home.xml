@@ -23,102 +23,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!--<android.support.v7.widget.Toolbar
-                    android:id="@+id/my_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorDarkHeader"
-                    android:elevation="4dp"
-                    android:title="null">
-
-                    <LinearLayout
-                        android:gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/ivBack"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/back"
-                            android:padding="@dimen/padding"
-                            android:visibility="gone"
-                            android:onClick="back"/>
-
-                        <TextView
-                            android:id="@+id/tvLogout"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:textAlignment="viewStart"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center_vertical"
-                            android:paddingStart="@dimen/padding"
-                            android:paddingEnd="@dimen/padding"
-                            android:text="@string/logout"
-                            android:textStyle="bold"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/logout_dimension" />
-                            &lt;!&ndash;android:background="?attr/colorDark"&ndash;&gt;
-
-                        <ImageView
-                            android:id="@+id/logo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?attr/colorLight"
-                            android:scaleType="fitCenter"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="@dimen/mini_margin"
-                            android:src="@mipmap/ic_launcher"
-                            android:textColor="@color/white"  />
-
-                        <LinearLayout
-                            android:id="@+id/ll_market_state"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right|center_vertical"
-                            android:layout_marginStart="@dimen/mini_margin"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="@dimen/mini_margin"
-                            android:background="@drawable/open_market_status"
-                            android:gravity="center"
-                            android:elevation="6dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/market_state_value_textview"
-                                android:elevation="6dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/market_status_height"
-                                android:layout_gravity="center_vertical|center_horizontal"
-                                android:layout_marginStart="@dimen/mini_margin"
-                                android:layout_marginEnd="@dimen/mini_margin"
-                                android:gravity="center_vertical|center_horizontal"
-                                android:paddingBottom="2dp"
-                                android:textColor="@color/white" />
-
-                            &lt;!&ndash;android:layout_marginEnd="@dimen/mini_margin"&ndash;&gt;
-
-                            <View
-                                android:layout_width="4sp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:id="@+id/market_time_value_textview"
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/market_status_height"
-                                android:layout_gravity="center_vertical|start"
-                                android:layout_marginStart="@dimen/mini_margin"
-                                android:layout_marginEnd="@dimen/mini_margin"
-                                android:gravity="center_vertical|center_horizontal"
-                                android:paddingBottom="0dp"
-                                android:textColor="@color/white" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </android.support.v7.widget.Toolbar>-->
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/my_toolbar"
@@ -170,50 +74,15 @@
                             android:src="@mipmap/ic_launcher"
                             android:textColor="@color/white"  />
 
-                        <LinearLayout
-                            android:id="@+id/ll_market_state"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right|center_vertical"
-                            android:layout_marginStart="@dimen/mini_margin"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="@dimen/mini_margin"
-                            android:background="@drawable/open_market_status"
-                            android:gravity="center"
-                            android:elevation="6dp"
-                            android:orientation="horizontal">
+                        <include
+                            android:id="@+id/market_tatus"
+                            layout="@layout/status"
+                            android:layout_width="180dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal|center_vertical|end"
+                            android:layout_margin="8dp"
+                            android:padding="5dp" />
 
-                            <TextView
-                                android:id="@+id/market_state_value_textview"
-                                android:elevation="0dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/market_status_height"
-                                android:layout_gravity="center_vertical|center_horizontal"
-                                android:layout_marginStart="@dimen/mini_margin"
-                                android:layout_marginEnd="@dimen/mini_margin"
-                                android:gravity="center_vertical|center_horizontal"
-                                android:paddingBottom="2dp"
-                                android:textColor="@color/white" />
-
-                            <!--android:layout_marginEnd="@dimen/mini_margin"-->
-
-                            <View
-                                android:layout_width="4sp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:id="@+id/market_time_value_textview"
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/market_status_height"
-                                android:layout_gravity="center_vertical|start"
-                                android:layout_marginStart="@dimen/mini_margin"
-                                android:layout_marginEnd="@dimen/mini_margin"
-                                android:gravity="center_vertical|center_horizontal"
-                                android:paddingBottom="0dp"
-                                android:textColor="@color/white" />
-
-
-                        </LinearLayout>
                     </LinearLayout>
 
                 </android.support.v7.widget.Toolbar>

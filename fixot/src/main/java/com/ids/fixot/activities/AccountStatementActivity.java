@@ -5,8 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.DownloadManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -40,7 +43,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ids.fixot.Actions;
+import com.ids.fixot.AppService;
 import com.ids.fixot.LocalUtils;
+import com.ids.fixot.MarketStatusReceiver.MarketStatusListener;
+import com.ids.fixot.MarketStatusReceiver.marketStatusReceiver;
 import com.ids.fixot.MyApplication;
 import com.ids.fixot.R;
 import com.ids.fixot.adapters.SubAccountsSpinnerAdapter;
@@ -69,7 +75,10 @@ import java.util.Locale;
  * Created by user on 10/5/2017.
  */
 
-public class AccountStatementActivity extends AppCompatActivity {
+public class AccountStatementActivity extends AppCompatActivity implements MarketStatusListener {
+
+
+    private BroadcastReceiver receiver;
 
     LinearLayout llDate;
     RelativeLayout rootLayout;
@@ -91,8 +100,26 @@ public class AccountStatementActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void refreshMarketTime(String status,String time,Integer color){
+
+        final TextView marketstatustxt = findViewById(R.id.market_state_value_textview);
+        final LinearLayout llmarketstatus = findViewById(R.id.ll_market_state);
+        final TextView markettime =  findViewById(R.id.market_time_value_textview);
+
+        marketstatustxt.setText(status);
+        markettime.setText(time);
+        llmarketstatus.setBackground(ContextCompat.getDrawable(this,color));
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        receiver = new marketStatusReceiver(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(AppService.ACTION_MARKET_SERVICE));
+
+
         Actions.setActivityTheme(this);
         Actions.setLocal(MyApplication.lang, this);
         setContentView(R.layout.activity_account_statement);
@@ -294,7 +321,7 @@ public class AccountStatementActivity extends AppCompatActivity {
 //Actions.InitializeSessionService(this);
 //Actions.InitializeMarketService(this);
         Actions.InitializeSessionServiceV2(this);
-        Actions.InitializeMarketServiceV2(this);
+     //   Actions.InitializeMarketServiceV2(this);
         Actions.checkLanguage(this, started);
         Actions.checkSession(this);
     }
