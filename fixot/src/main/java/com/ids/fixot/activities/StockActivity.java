@@ -92,8 +92,6 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
         LocalUtils.updateConfig(this);
     }
 
-
-
     @Override
     public void refreshMarketTime(String status,String time,Integer color){
 
@@ -252,8 +250,13 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
         } else {
 
             allInstruments.clear();
-            for(int i=1; i<AllMarkets.size(); i++){
-                allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments , AllMarkets.get(i).getValue()));
+
+            if(!MyApplication.isOTC) {
+                for (int i = 1; i < AllMarkets.size(); i++) {
+                    allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments, AllMarkets.get(i).getValue()));
+                }
+            }else{
+                allInstruments.addAll(MyApplication.instruments);
             }
         }
         //</editor-fold>
@@ -324,7 +327,6 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
         running = true;
 
         Actions.checkSession(this);
-
         Actions.checkLanguage(this, started);
 
         //Actions.InitializeSessionService(this);
@@ -337,7 +339,7 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
     protected void onStop() {
         super.onStop();
 
-        Actions.unregisterMarketReceiver(this);
+       // Actions.unregisterMarketReceiver(this);
         Actions.unregisterSessionReceiver(this);
     }
 
@@ -371,9 +373,20 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
 
     public void findViews() {
 
-      rlStockSearch =  findViewById(R.id.rlStockSearch);
+        rlStockSearch =  findViewById(R.id.rlStockSearch);
         rootLayout = findViewById(R.id.rootLayout);
         rvStocks =  findViewById(R.id.rvStocks);
+
+
+        if(MyApplication.isOTC) {
+            LinearLayout vs =   findViewById(R.id.spMarketLayout);
+
+            ViewGroup.LayoutParams params = (LinearLayout.LayoutParams) vs.getLayoutParams();
+
+            params.width = 0;
+
+            vs.setVisibility(View.INVISIBLE);
+        }
 
         ImageView iv_arrow = findViewById(R.id.iv_arrow);
         iv_arrow.setOnClickListener(new View.OnClickListener() {
@@ -394,7 +407,7 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
                 MyApplication.instrumentId = "";
                 isSelectInstrument = false;
 
-                if(selectMarket.getValue() == TradingSession.All.getValue()){
+                if(selectMarket.getValue() == TradingSession.All.getValue() || MyApplication.isOTC){
                     marketInstruments = allInstruments;
                 }else{
                     marketInstruments = Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments , selectMarket.getValue());
@@ -533,9 +546,15 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
             MyApplication.dismiss();
 
             allInstruments.clear();
-            for(int i=1; i<AllMarkets.size(); i++){
-                allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments , AllMarkets.get(i).getValue()));
+
+            if(!MyApplication.isOTC) {
+                for (int i = 1; i < AllMarkets.size(); i++) {
+                    allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments, AllMarkets.get(i).getValue()));
+                }
+            }else{
+                allInstruments.addAll(MyApplication.instruments);
             }
+
             marketInstruments = allInstruments;
             instrumentsRecyclerAdapter.notifyDataSetChanged();
         }

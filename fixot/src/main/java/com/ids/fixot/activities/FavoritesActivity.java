@@ -177,8 +177,13 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesRec
         } else {
 
             allInstruments.clear();
-            for(int i=1; i<AllMarkets.size(); i++){
-                allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments , AllMarkets.get(i).getValue()));
+
+            if(!MyApplication.isOTC) {
+                for (int i = 1; i < AllMarkets.size(); i++) {
+                    allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments, AllMarkets.get(i).getValue()));
+                }
+            }else{
+                allInstruments.addAll(MyApplication.instruments);
             }
 
             getFavoriteStocks = new GetFavoriteStocks();
@@ -214,6 +219,20 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesRec
 
     private void findViews() {
 
+
+
+        if(MyApplication.isOTC) {
+            LinearLayout vs =   findViewById(R.id.spMarketLayout);
+
+            ViewGroup.LayoutParams params = (LinearLayout.LayoutParams) vs.getLayoutParams();
+
+            params.width = 0;
+
+            vs.setVisibility(View.INVISIBLE);
+        }
+
+
+
         llTab = findViewById(R.id.llTab);
         rlStockSearch = findViewById(R.id.rlStockSearch);
         rootLayout = findViewById(R.id.rootLayout);
@@ -244,7 +263,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesRec
                 MyApplication.instrumentId = "";
                 isSelectInstrument = false;
 
-                if(selectMarket.getValue() == TradingSession.All.getValue()){
+                if(selectMarket.getValue() == TradingSession.All.getValue() || MyApplication.isOTC){
                     marketInstruments = allInstruments;
                 }else{
                     marketInstruments = Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments , selectMarket.getValue());
@@ -395,8 +414,12 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesRec
             Log.wtf("dismiss ","GetInstruments");
 
             allInstruments.clear();
-            for(int i=1; i<AllMarkets.size(); i++){
-                allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments , AllMarkets.get(i).getValue()));
+            if(!MyApplication.isOTC) {
+                for (int i = 1; i < AllMarkets.size(); i++) {
+                    allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments, AllMarkets.get(i).getValue()));
+                }
+            }else{
+                allInstruments.addAll(MyApplication.instruments);
             }
             marketInstruments = allInstruments;
             instrumentsRecyclerAdapter.notifyDataSetChanged();

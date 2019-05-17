@@ -153,10 +153,16 @@ public class TimeSalesActivity extends AppCompatActivity implements InstrumentsR
         } else {
 
             allInstruments.clear();
-            for (int i = 1; i < AllMarkets.size(); i++) {
-                Log.wtf("onCreate","AllMarkets.get(i) : " + AllMarkets.get(i));
-                allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments, AllMarkets.get(i).getValue()));
+
+            if(!MyApplication.isOTC) {
+                for (int i = 1; i < AllMarkets.size(); i++) {
+                    allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments, AllMarkets.get(i).getValue()));
+                }
+            }else{
+                allInstruments.addAll(MyApplication.instruments);
             }
+
+           
         }
 
 
@@ -351,6 +357,17 @@ public class TimeSalesActivity extends AppCompatActivity implements InstrumentsR
 
 
     private void findViews() {
+
+        if(MyApplication.isOTC) {
+            LinearLayout vs =   findViewById(R.id.spMarketLayout);
+
+            ViewGroup.LayoutParams params = (LinearLayout.LayoutParams) vs.getLayoutParams();
+
+            params.width = 0;
+
+            vs.setVisibility(View.INVISIBLE);
+        }
+
 
         myToolbar = findViewById(R.id.my_toolbar);
         rootLayout = findViewById(R.id.rootLayout);

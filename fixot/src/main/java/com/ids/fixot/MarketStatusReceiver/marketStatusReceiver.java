@@ -20,7 +20,7 @@ public class marketStatusReceiver  extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
             String time = "";
-            Integer Color = R.drawable.other_market_status;
+           Integer Color = R.drawable.other_market_status;
 
         try {
 

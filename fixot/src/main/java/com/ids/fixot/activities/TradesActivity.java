@@ -283,6 +283,7 @@ public class TradesActivity extends AppCompatActivity implements OrderDurationTy
 
     private void findViews() {
 
+
         //<editor-fold desc="find views">
 
         spSubAccounts = findViewById(R.id.spSubAccounts);

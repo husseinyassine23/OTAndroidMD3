@@ -158,17 +158,15 @@ android {
             buildConfigField 'String', "BaseLiveLink", "\"http://195.39.136.19/iphoneservicemd2/Mobile/\""
             buildConfigField 'String', "LiveLink", "\"http://195.39.136.19/iphoneServiceMD2new/Services/DataService.svc\""
 
-//            buildConfigField 'String', "BaseMD3Link", "\"http://195.39.136.19/iphoneservicemd2/Mobile/\""
-//            buildConfigField 'String', "MD3Link", "\"http://195.39.136.19/iphoneServiceMD2new/Services/DataService.svc\""
-
-            buildConfigField 'String', "BaseMD3Link", "\"http://www.kiconlinetrading.kicwasata.com/iphoneotcwebservice/Mobile/\""
+//
+            buildConfigField 'String', "BaseMD3Link", "\"http://www.kiconlinetrading.kicwasata.com/iphoneotcwebservice/\""
             buildConfigField 'String', "MD3Link", "\"http://www.kiconlinetrading.kicwasata.com/iphoneotcwebservice/Services/DataService.svc\""
 
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 26
-            versionCode 2
-            versionName '8.4'
+            versionCode 3
+            versionName '1.0'
         }
 
         AlseefOtc {

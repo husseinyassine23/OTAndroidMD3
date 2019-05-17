@@ -20,6 +20,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/spMarketLayout"
             android:layout_width="wrap_content"
             android:gravity="center"
             android:layout_marginEnd="4sp"
@@ -32,10 +33,11 @@
                 android:id="@+id/spMarket"
                 android:layout_width="70sp"
                 android:layout_height="match_parent"
-                android:background="@android:color/transparent"
                 android:layout_marginTop="2sp"
+                android:layout_marginEnd="2sp"
                 android:layout_marginBottom="2sp"
-                android:layout_marginEnd="2sp" />
+                android:background="@android:color/transparent"
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/iv_arrow"
@@ -43,13 +45,14 @@
                 android:layout_height="12dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:tint="?attr/colorDark"
+                android:layout_marginStart="4sp"
+                android:layout_marginEnd="4sp"
+                android:layout_weight="2"
                 android:rotation="270"
                 android:scaleType="fitCenter"
-                android:layout_marginEnd="4sp"
-                android:layout_marginStart="4sp"
-                android:visibility="visible"
-                android:src="@drawable/back" />
+                android:src="@drawable/back"
+                android:tint="?attr/colorDark"
+                android:visibility="visible" />
 
         </LinearLayout>
 
