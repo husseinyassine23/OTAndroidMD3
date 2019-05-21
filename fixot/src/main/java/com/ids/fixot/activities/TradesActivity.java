@@ -1,19 +1,14 @@
 package com.ids.fixot.activities;
 
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,15 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
@@ -41,12 +31,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ids.fixot.Actions;
 import com.ids.fixot.AppService;
 import com.ids.fixot.ConnectionRequests;
@@ -63,10 +51,8 @@ import com.ids.fixot.enums.enums;
 import com.ids.fixot.model.BrokerageFee;
 import com.ids.fixot.model.OnlineOrder;
 import com.ids.fixot.model.OrderDurationType;
-import com.ids.fixot.classes.PatchedSpinner;
 import com.ids.fixot.model.StockQuotation;
 import com.ids.fixot.model.Trade;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -213,7 +199,6 @@ public class TradesActivity extends AppCompatActivity implements OrderDurationTy
 
         setMaxMin = stockQuotation.getInstrumentId().equals(MyApplication.Auction_Instrument_id) || MyApplication.marketID.equals(Integer.toString(enums.MarketType.KWOTC.getValue())) || cbPrivate.isChecked();
 
-
         started = true;
 
         setInitialData();
@@ -268,12 +253,7 @@ public class TradesActivity extends AppCompatActivity implements OrderDurationTy
 
         Actions.checkLanguage(this, started);
 
-        //Actions.InitializeSessionService(this);
-
-        //Actions.InitializeMarketService(this);
-
         Actions.InitializeSessionServiceV2(this);
-      //  Actions.InitializeMarketServiceV2(this);
 
         running = true;
 
@@ -1238,6 +1218,8 @@ public class TradesActivity extends AppCompatActivity implements OrderDurationTy
                 updateOverAllViews(price, quantity);
                 break;
         }
+
+        setPriceWithMarketPrice(true);
     }
 
 
@@ -1274,29 +1256,6 @@ public class TradesActivity extends AppCompatActivity implements OrderDurationTy
         Log.wtf("setEtPriceValue", "setEtPriceValue");
 
         if (!isFromOrderDetails) {
-
-            /*if (orderType == MyApplication.LIMIT) {
-
-                if (tradeType == MyApplication.ORDER_SELL) {
-
-                    price = stockQuotation.getHiLimit();
-
-                } else { // tradeType == MyApplication.ORDER_BUY
-
-                    price = stockQuotation.getLowlimit();
-                }
-
-            } else { // orderType == MARKET PRICE
-
-                if (tradeType == MyApplication.ORDER_SELL) {
-
-                    price = stockQuotation.getLowlimit();
-
-                } else { // tradeType == MyApplication.ORDER_BUY
-
-                    price = stockQuotation.getHiLimit();
-                }
-            }*/
 
             price = setPriceWithMarketPrice(false);
 
@@ -1987,110 +1946,37 @@ public class TradesActivity extends AppCompatActivity implements OrderDurationTy
             pricee = price;
         }
         else{
-
             if (condition && onLoad) {
-
                 pricee = (stockQuotation.getLast() > 0 ? stockQuotation.getLast() : stockQuotation.getReferencePrice());
             } else {
-                if (orderType == MyApplication.MARKET_PRICE) {
+                if (onLoad) {
 
-                    if (tradeType == MyApplication.ORDER_SELL) {
-                        pricee = (stockQuotation.getAsk() > 0 ? stockQuotation.getAsk() : stockQuotation.getHiLimit());
-                    } else {
-                        pricee = (stockQuotation.getBid() > 0 ? stockQuotation.getBid() : stockQuotation.getLowlimit());
+                    if (MyApplication.defaultPriceType == 0) {
+                        pricee = 0.0;
                     }
-                } else {
-                    if(onLoad){
-                        pricee = getDefaultPrice();
+                    else if (MyApplication.defaultPriceType == 1) {
+
+                        if (tradeType == MyApplication.ORDER_SELL) {
+                            pricee = (stockQuotation.getAsk() > 0 ? stockQuotation.getAsk() : stockQuotation.getHiLimit());
+                        } else {
+                            pricee = (stockQuotation.getBid() > 0 ? stockQuotation.getBid() : stockQuotation.getLowlimit());
+                        }
                     }
-                    else{
-                        pricee = Double.parseDouble(etLimitPrice.getText().toString().equals("") ? "0" : etLimitPrice.getText().toString());
+                    else if (MyApplication.defaultPriceType == 2) {
+
+                        pricee = (tradeType == MyApplication.ORDER_SELL) ? stockQuotation.getHiLimit() : stockQuotation.getLowlimit();
                     }
+
+
+                }else{
+                    pricee = price;
                 }
             }
         }
         price = pricee;
         return pricee;
 
-            /*if(condition){
-                price = (self.data.stockQuotation.last > 0 ? self.data.stockQuotation.last : self.data.stockQuotation.referencePrice ?? 0)
-            }
-            else{
-                if(isMarketLimit){
-                    price = isSell ? (self.data.stockQuotation.bid > 0 ? self.data.stockQuotation.bid : self.data.stockQuotation.hiLimit) : (self.data.stockQuotation.ask > 0 ? self.data.stockQuotation.ask : self.data.stockQuotation.lowLimit)
-
-                }
-                else{
-                    if(appDelegate.marketId != MarketType.KWOTC) {
-                        getDefaultPrice();
-                        *//*
-                        if(appDelegate.parameter.defaultPriceOnTrade == "0") {
-                            price = 0
-                        }
-                        if(appDelegate.parameter.defaultPriceOnTrade == "1") {
-                            price = isSell ? (self.data.stockQuotation.bid > 0 ? self.data.stockQuotation.bid : self.data.stockQuotation.hiLimit) : (self.data.stockQuotation.ask > 0 ? self.data.stockQuotation.ask : self.data.stockQuotation.lowLimit)
-                        }
-                        else if(appDelegate.parameter.defaultPriceOnTrade == "2") {
-                            price = isSell ? self.data.stockQuotation.hiLimit : self.data.stockQuotation.lowLimit
-                        }
-                        else {
-                            price = stepperPrice.value
-                        }*//*
-                    }
-                }
-            }*/
-
-
-        /*if(isMarketLimit && appDelegate.marketId != MarketType.KWOTC) {
-            price = isSell ?
-                    (self.data.stockQuotation.bid > 0 ? self.data.stockQuotation.bid : self.data.stockQuotation.hiLimit)
-                    :
-                    (self.data.stockQuotation.ask > 0 ? self.data.stockQuotation.ask : self.data.stockQuotation.hiLimit)
-        }
-        else {
-            price = stepperPrice.value
-        }*/
     }
-
-    /*func getPrice(onLoad: Bool ) -> Double {
-
-        var price: Double = 0
-        let isMarketLimit = self.segmentLimitMarketPrice.selectedSegmentIndex == 1
-        let isSell = self.segmentSellBuy.selectedSegmentIndex == 0
-
-        if(appDelegate.marketId == MarketType.KWOTC) {
-            return stepperPrice.value
-        }
-
-        let condition = appDelegate.realTimeData.statusID == MarketStatus.PreClose || appDelegate.realTimeData.statusID == MarketStatus.TradeAtLast || appDelegate.realTimeData.statusID == MarketStatus.Acceptance || appDelegate.realTimeData.statusID == MarketStatus.PreOpen || appDelegate.realTimeData.statusID == MarketStatus.CLOSE_ACCPT2
-
-        if(condition && onLoad){
-            price = (self.data.stockQuotation.last > 0 ? self.data.stockQuotation.last : self.data.stockQuotation.referencePrice ?? 0)
-        }
-        else{
-            if(isMarketLimit){
-                price = isSell ? (self.data.stockQuotation.bid > 0 ? self.data.stockQuotation.bid : self.data.stockQuotation.hiLimit) : (self.data.stockQuotation.ask > 0 ? self.data.stockQuotation.ask : self.data.stockQuotation.lowLimit)
-            }
-            else{
-                if(onLoad){
-                    if(appDelegate.parameter.defaultPriceOnTrade == "0") {
-                        price = 0
-                    }
-                    else if(appDelegate.parameter.defaultPriceOnTrade == "1") {
-                        price = isSell ? (self.data.stockQuotation.bid > 0 ? self.data.stockQuotation.bid : self.data.stockQuotation.hiLimit) : (self.data.stockQuotation.ask > 0 ? self.data.stockQuotation.ask : self.data.stockQuotation.lowLimit)
-                    }
-                    else if(appDelegate.parameter.defaultPriceOnTrade == "2") {
-                        price = isSell ? self.data.stockQuotation.hiLimit : self.data.stockQuotation.lowLimit
-                    }
-                }
-                else{
-                    price = stepperPrice.value
-                }
-            }
-        }
-
-        return price
-    }*/
 
 
     public Double getDefaultPrice(){
