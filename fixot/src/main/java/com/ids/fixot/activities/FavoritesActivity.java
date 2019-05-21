@@ -57,6 +57,8 @@ import com.ids.fixot.model.StockQuotation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import static com.ids.fixot.MyApplication.GetFavoriteStocks;
@@ -676,6 +678,13 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesRec
         rvStocks.setAdapter(adapter);
 
         Log.wtf("on instr click","allStocks count = " + allStocks.size());
+
+
+        Collections.sort(allStocks, new Comparator<StockQuotation>() {
+            public int compare(StockQuotation o1, StockQuotation o2) {
+                return o1.getSecurityId().compareTo(o2.getSecurityId());
+            }
+        });
 
         //rvStocks.setAdapter(adapter);
         //adapter.notifyDataSetChanged();

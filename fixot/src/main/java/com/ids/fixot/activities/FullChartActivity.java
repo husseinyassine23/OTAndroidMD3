@@ -210,11 +210,9 @@ public class FullChartActivity extends AppCompatActivity implements OnChartGestu
             String result = "";
             String url = MyApplication.link + MyApplication.GetSectorChartData.getValue(); // this method uses key after login
 
-
             HashMap<String, String> parameters = new HashMap<String, String>();
             parameters.put("sectorId", sectorId);
             parameters.put("key", getResources().getString(R.string.beforekey));
-
 
             while (running) {
                 try {

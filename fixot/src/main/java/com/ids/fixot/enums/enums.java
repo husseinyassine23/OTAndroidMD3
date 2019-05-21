@@ -140,8 +140,9 @@ public class enums {
         OTC_EQTY_KWD("OTC_EQTY_KWD", 5),
         FUNDS("FUNDS", 6),
 
+
         All_ar("الكل", 0),
-        REG_ar("الرئيسي", 1),
+        REG_ar("السوق العادي", 1),
         FUNDS_ar("الصناديق", 6);
 
         private int intValue;
