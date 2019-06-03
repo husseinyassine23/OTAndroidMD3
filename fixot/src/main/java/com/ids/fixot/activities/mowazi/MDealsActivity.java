@@ -224,8 +224,6 @@ public class MDealsActivity extends AppCompatActivity implements
                     }
                 });
 
-
-
     }
 
 
