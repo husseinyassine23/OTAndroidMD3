@@ -7,11 +7,35 @@ package com.ids.fixot.model;
 public class Stock {
 
     private int topType;
-    private String id, sectorID, symbolAr, symbolEn, amount,change,changePercent, last, trades,  volume;
+    private String id, sectorID, symbolAr, symbolEn, amount,change,changePercent, last, trades,TradingSession,  volume,instrumentId,MarketID;
     private String securityId;
 
     public Stock(){
 
+    }
+
+    public String getInstrumentId() {
+        return instrumentId;
+    }
+
+    public void setInstrumentId(String instrumentId) {
+        this.instrumentId = instrumentId;
+    }
+
+    public String getTradingSession() {
+        return TradingSession;
+    }
+
+    public void setTradingSession(String tradingSession) {
+        TradingSession = tradingSession;
+    }
+
+    public String getMarketID() {
+        return MarketID;
+    }
+
+    public void setMarketID(String marketID) {
+        MarketID = marketID;
     }
 
     public String getId() {

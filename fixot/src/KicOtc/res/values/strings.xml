@@ -2,6 +2,8 @@
 
 <resources>
 
+
+
     <string name="app_name">KIC Wasata OTC</string>
 
     <string name="current_version">Current Version:</string>
@@ -225,4 +227,8 @@
     <string name="stock_change_percent_title">Change%</string>
     <string name="stock_bid_quantity_title">Bid quantity</string>
     <string name="stock_ask_quantity_title">Ask quantity</string>
+
+    <string name="termAndcondition">I agree to the Terms and Conditions</string>
+    <string name="plztermAndcondition">Please accept Terms and Conditions</string>
+    <string name="opentermAndcondition">View Terms and Conditions</string>
 </resources>

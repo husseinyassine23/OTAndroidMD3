@@ -68,21 +68,39 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/colorLight">
 
-
-                    <TextView
-                        android:id="@+id/stockName"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/linearStockName"
+                        android:gravity="center"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/mini_margin"
-                        android:layout_marginStart="@dimen/mini_margin"
-                        android:layout_toStartOf="@+id/ivFavorite"
-                        android:padding="@dimen/mini_padding"
-                        android:textColor="?attr/colorDark"
-                        android:textSize="@dimen/normal" />
+                        >
+                        <TextView
+                            android:id="@+id/stockName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxWidth="260dp"
+                            android:layout_marginEnd="@dimen/mini_margin"
+                            android:layout_marginStart="@dimen/mini_margin"
+                            android:layout_toStartOf="@+id/ivFavorite"
+                            android:padding="@dimen/mini_padding"
+                            android:textColor="?attr/colorDark"
+                            android:textSize="@dimen/normal" />
 
 
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:id="@+id/ivArrow"
+                            android:layout_gravity="center"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:tint="?attr/colorDark"
+                            android:rotation="180"
+                            android:src="@drawable/back"/>
+
+                    </LinearLayout>
                     <ImageView
                         android:id="@+id/ivFavorite"
                         android:layout_width="wrap_content"
@@ -236,15 +254,15 @@
                     </LinearLayout>
 
                     <!--<TextView-->
-                        <!--android:id="@+id/value"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:gravity="center_horizontal"-->
-                        <!--android:padding="@dimen/mini_padding"-->
-                        <!--android:visibility="gone"-->
-                        <!--android:textColor="@color/colorValues"-->
-                        <!--android:textSize="@dimen/large" />-->
+                    <!--android:id="@+id/value"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:padding="@dimen/mini_padding"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:textColor="@color/colorValues"-->
+                    <!--android:textSize="@dimen/large" />-->
 
                     <TextView
                         android:id="@+id/secondValue"

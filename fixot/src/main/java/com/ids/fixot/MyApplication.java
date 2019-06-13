@@ -24,6 +24,7 @@ import com.ids.fixot.model.MarketStatus;
 import com.ids.fixot.model.OrderDurationType;
 import com.ids.fixot.model.Parameter;
 import com.ids.fixot.model.Portfolio;
+import com.ids.fixot.model.Stock;
 import com.ids.fixot.model.StockQuotation;
 import com.ids.fixot.model.SubAccount;
 import com.ids.fixot.model.TimeSale;
@@ -103,6 +104,7 @@ public class MyApplication extends Application {
     public static String CB_Auction_id = "10";
     public static ArrayList<BrokerageFee> allBrokerageFees = new ArrayList<>();
     public static ArrayList<StockQuotation> stockQuotations = new ArrayList<>();
+    public static ArrayList<Stock> stockTops = new ArrayList<>();
     public static ArrayList<TimeSale> timeSales = new ArrayList<>();
     public static ArrayList<WebItem> webItems = new ArrayList<>();
     public static ArrayList<Instrument> instruments = new ArrayList<>();

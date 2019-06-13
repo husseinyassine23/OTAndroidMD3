@@ -211,4 +211,7 @@
     <string name="stock_change_percent_title">التغيير%</string>
     <string name="stock_bid_quantity_title">الكمية المطلوبة </string>
     <string name="stock_ask_quantity_title">الكمية المعروضة</string>
+    <string name="termAndcondition">أوافق على الشروط والأحكام</string>
+    <string name="plztermAndcondition">الرجاء الموافقة على  على الشروط والأحكام</string>
+    <string name="opentermAndcondition">عرض الشروط والأحكام</string>
 </resources>

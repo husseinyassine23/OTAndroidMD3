@@ -2,9 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'kic'
+            keyPassword 'aa112233'
+            storeFile file('C:/D/AndroidStudioProjects/ibrahim/Last Fixot Key/kickey')
+            storePassword 'aa112233'
+        }
+    }
     compileSdkVersion 28
     useLibrary 'org.apache.http.legacy'
-
     defaultConfig {
         applicationId "com.ids.fixot"
         minSdkVersion 21
@@ -14,9 +21,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
-
     flavorDimensions "color"
-
     productFlavors {
 
         Alseef {
@@ -97,7 +102,7 @@ android {
             buildConfigField 'String', "BrokerId", "\"14\""
             buildConfigField 'String', "label", "\"kic\""
             buildConfigField 'boolean', "Enable_Media", "false"
-            buildConfigField 'boolean', "GoToMenu", "true"
+            buildConfigField 'boolean', "GoToMenu", "false"
 
             buildConfigField 'String', "BaseTestingLink", "\"http://195.39.136.19/iphoneservicemd2/Mobile/\""
             buildConfigField 'String', "TestingLink", "\"http://195.39.136.19/iphoneServiceMD2new/Services/DataService.svc\""
@@ -136,7 +141,8 @@ android {
             buildConfigField 'String', "LiveLink", "\"http://62.215.141.35/iphoneservicenew/services/DataService.svc\""
 
             buildConfigField 'String', "BaseMD3Link", "\"http://www.sharqetrade.com/MD3AndroidService/Mobile/\""
-            buildConfigField 'String', "MD3Link", "\"http://www.sharqetrade.com/MD3AndroidService/Services/DataService.svc\""
+            buildConfigField 'String', "MD3Link", "\"http://www.sharqetrade.com/TESTIphoneWebService/Services/DataService.svc\""
+           // buildConfigField 'String', "MD3Link", "\"http://www.sharqetrade.com/MD3AndroidService/Services/DataService.svc\""
 
             dimension "color"
             minSdkVersion 21
@@ -166,7 +172,7 @@ android {
             minSdkVersion 21
             targetSdkVersion 26
             versionCode 3
-            versionName '1.0'
+            versionName '1.2'
         }
 
         AlseefOtc {
@@ -220,7 +226,6 @@ android {
             versionName '7.0'
         }*/
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -233,7 +238,6 @@ android {
             }
         }
     }
-
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -243,14 +247,11 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
-
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation 'junit:junit:4.12'
-
-
     implementation files('libs/ksoap2-android-assembly-2.4-jar-with-dependencies.jar')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
@@ -261,9 +262,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation 'info.hoang8f:android-segmented:1.0.6'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
-
     implementation 'me.aflak.libraries:fingerprint:2.5.2'
     implementation 'com.github.clans:fab:1.6.4'
-
     implementation 'com.android.support:multidex:1.0.3'
 }

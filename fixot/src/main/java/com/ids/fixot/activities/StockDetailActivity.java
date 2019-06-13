@@ -79,6 +79,8 @@ public class StockDetailActivity extends AppCompatActivity implements OnChartGes
     Button btTimeSales, btOrderBook, btBuy, btSell;
     RelativeLayout rootLayout;
     TextView tvStockName;
+    ImageView ivArrow;
+    LinearLayout linearStockName;
     StockQuotation stock = new StockQuotation();
     RecyclerView rvValueList;
     ImageView ivFavorite;
@@ -266,6 +268,15 @@ public class StockDetailActivity extends AppCompatActivity implements OnChartGes
         rootLayout = findViewById(R.id.rootLayout);
         ivFavorite = findViewById(R.id.ivFavorite);
         tvStockName = findViewById(R.id.stockName);
+        ivArrow=findViewById(R.id.ivArrow);
+        if (MyApplication.lang == MyApplication.ARABIC)
+            ivArrow.setRotation(0);
+        else
+            ivArrow.setRotation(180);
+
+
+
+        linearStockName=findViewById(R.id.linearStockName);
         rvValueList = findViewById(R.id.valueList);
         rvNews = findViewById(R.id.rvNews);
         ivExpand = findViewById(R.id.ivExpand);
@@ -290,6 +301,16 @@ public class StockDetailActivity extends AppCompatActivity implements OnChartGes
                     .putExtra("stockId", stock.getStockID())
             );
         });
+
+
+        linearStockName.setOnClickListener(v ->  {
+              String lang="ar";
+                if (MyApplication.lang == MyApplication.ENGLISH)
+                    lang="en";
+                    String url = "https://www.almowazi.com/MobileCompnayProfile.aspx?OTCID="+stock.getSecurityId()+"&language="+lang;
+                    startActivity(new Intent(StockDetailActivity.this, PdfDisplayActivity.class).putExtra("url", url));
+                }
+        );
 
         btTimeSales.setOnClickListener(v -> startActivity(new Intent(StockDetailActivity.this, TimeSalesActivity.class)
                 .putExtra("stockId", stock.getStockID())

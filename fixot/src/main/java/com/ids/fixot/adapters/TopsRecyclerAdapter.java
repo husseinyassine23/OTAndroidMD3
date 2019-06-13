@@ -70,7 +70,7 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
     public void onBindViewHolder(ItemViewHolder holder, final int position) {
 
         Stock stock = allStocks.get(position);
-        holder.tvStockSymbol.setText(MyApplication.lang == MyApplication.ENGLISH ? stock.getSymbolEn() : stock.getSymbolAr());
+        holder.tvStockSymbol.setText(MyApplication.lang == MyApplication.ENGLISH ? stock.getSecurityId()+" " +stock.getSymbolEn() : stock.getSecurityId()+" " +stock.getSymbolAr());
 
         try {
 
@@ -81,6 +81,7 @@ public class TopsRecyclerAdapter extends RecyclerView.Adapter<TopsRecyclerAdapte
             e.printStackTrace();
             holder.tvPrice.setText(stock.getLast());
         }
+
 
         holder.tvChange.setText(stock.getChange());
         holder.tvChangePercent.setText(stock.getChangePercent());

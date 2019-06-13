@@ -63,7 +63,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
+                    <include
+                        android:id="@+id/llTab"
+                        layout="@layout/instruments_filter_md_three_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/button_height"
@@ -88,6 +92,10 @@
                             android:textColor="@color/green_color"
                             android:textSize="@dimen/normal" />
                     </LinearLayout>
+
+
+
+
 
                     <include
                         android:id="@+id/llGainersHeader"

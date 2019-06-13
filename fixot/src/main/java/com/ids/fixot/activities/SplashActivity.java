@@ -64,6 +64,8 @@ public class SplashActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Toast.makeText(getApplicationContext(),"asdsad222",Toast.LENGTH_LONG).show();
+
         try{
 
             Actions.setActivityTheme(this);
@@ -74,7 +76,6 @@ public class SplashActivity extends AppCompatActivity {
 
         Actions.setLocal(MyApplication.lang, this);
         setContentView(R.layout.activity_splash);
-
 //        Log.wtf("normal theme","" + MyApplication.mshared.getBoolean(getResources().getString(R.string.normal_theme), true));
 
         try {
@@ -83,6 +84,8 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
             firstRun = false;
         }
+
+
 
         MyApplication.instruments.clear();
         MyApplication.instrumentsHashmap.clear();

@@ -1479,6 +1479,50 @@ public class Actions {
     }
 
 
+
+
+    public static ArrayList<Stock> filterTopsByInstruments(ArrayList<Stock> stocksList, ArrayList<Instrument> instruments) {
+
+        ArrayList<Stock> filteredList = new ArrayList<>();
+        String[] instrumentIds = new String[instruments.size()];
+
+        for (int i = 0; i < instruments.size(); i++) {
+            instrumentIds[i] =  (instruments.get(i).getInstrumentCode());
+        }
+
+        if (instrumentIds.length != 0){
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+
+                List<Stock> filteredByInstrument;
+                filteredByInstrument = stocksList.stream()
+                        .filter(s -> Arrays.asList(instrumentIds).contains(s.getInstrumentId()))
+                        .collect(Collectors.toList());
+
+                filteredList.addAll(filteredByInstrument);
+            } else {
+
+                for (int i = 0; i < stocksList.size(); i++) {
+
+                    if (Arrays.asList(instrumentIds).contains(stocksList.get(i).getInstrumentId()))
+                        filteredList.add(stocksList.get(i));
+                }
+            }
+        }
+
+        return filteredList;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     /*public static ArrayList<StockQuotation> filterStocksByMarketSegmentID(ArrayList<StockQuotation> stocksList, int marketSegmentId) {
 
         //if (marketId == 0) return stocksList;
@@ -1627,6 +1671,9 @@ public class Actions {
         }
         return filteredList;
     }
+
+
+
 
 
     public static ArrayList<TimeSale> filterTimeSalesByInstrumentIDAndStockID(ArrayList<TimeSale> timeSales, int stockID, String instrumentId) {

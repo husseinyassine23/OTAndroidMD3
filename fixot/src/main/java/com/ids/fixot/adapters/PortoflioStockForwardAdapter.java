@@ -78,7 +78,7 @@ public class PortoflioStockForwardAdapter extends RecyclerView.Adapter<Portoflio
                 holder.symbol_title.setText(MyApplication.lang == MyApplication.ARABIC ? stock.getSymbolAr() : stock.getSymbolEn());
                 holder.symbol_code.setText(stock.getSecurityId()); //getStockId
                 holder.quantity_cost_title.setText(String.valueOf(stock.getShareCount()));
-                holder.volume_cost_title.setText(stock.getTotalCost());
+                holder.volume_cost_title.setText(stock.getTotalMarket());
                 //holder.quantity_cost_title.setText(Actions.formatNumber(stock.getAvailableShares(), Actions.NoDecimalThousandsSeparator));
                 //holder.volume_cost_title.setText(Actions.formatNumber(Double.parseDouble(stock.getTotalCost()), Actions.TwoDecimal));
                 //holder.unrealized_title.setText(Actions.formatNumber(stock.getUnrealized(), Actions.TwoDecimalThousandsSeparator));
@@ -90,6 +90,8 @@ public class PortoflioStockForwardAdapter extends RecyclerView.Adapter<Portoflio
 
                 String bidNumber = stock.getAverageCost() + "";
                 holder.bid_ask_title.setText(bidNumber);
+                String last = stock.getLast() + "";
+                holder.tvLast.setText(last);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -116,6 +118,7 @@ public class PortoflioStockForwardAdapter extends RecyclerView.Adapter<Portoflio
             holder.symbol_title.setTypeface(MyApplication.lang == MyApplication.ARABIC ? MyApplication.droidbold : MyApplication.giloryBold);
             holder.symbol_code.setTypeface(MyApplication.lang == MyApplication.ARABIC ? MyApplication.droidregular : MyApplication.giloryItaly);
             holder.trades_button.setTypeface(MyApplication.giloryBold);
+            holder.tvLast.setTypeface(MyApplication.lang == MyApplication.ARABIC ? MyApplication.droidregular : MyApplication.giloryItaly);
 
             Actions.setTypeface(new TextView[]{holder.quantity_cost_title, holder.bid_ask_title, holder.unrealized_title}
                     , MyApplication.giloryBold);
@@ -125,7 +128,7 @@ public class PortoflioStockForwardAdapter extends RecyclerView.Adapter<Portoflio
 
         } else {
 
-            Actions.setTypeface(new TextView[]{holder.symbol_title, holder.quantity_cost_title, holder.bid_ask_title, holder.unrealized_title ,holder.unrealized_title_prcnt , holder.cost_titles },
+            Actions.setTypeface(new TextView[]{holder.symbol_title, holder.quantity_cost_title, holder.bid_ask_title, holder.tvLast,holder.unrealized_title ,holder.unrealized_title_prcnt , holder.cost_titles },
                     MyApplication.lang == MyApplication.ARABIC ? MyApplication.droidbold : MyApplication.giloryBold);
         }
 
@@ -146,7 +149,7 @@ public class PortoflioStockForwardAdapter extends RecyclerView.Adapter<Portoflio
 
     public class RecyclerTickerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView unrealized_title, unrealized_percent, bid_ask_title, quantity_cost_title, volume_cost_title, symbol_title , symbol_code, unrealized_title_prcnt , cost_titles;
+        TextView unrealized_title, unrealized_percent, bid_ask_title,tvLast, quantity_cost_title, volume_cost_title, symbol_title , symbol_code, unrealized_title_prcnt , cost_titles;
         TextView rem_cost, due_date, cost, b_price, org_qtty, rem_qtty, num, date, symbol;
         Button trades_button;
         protected View itemView;
@@ -165,6 +168,7 @@ public class PortoflioStockForwardAdapter extends RecyclerView.Adapter<Portoflio
             rlItem = itemView.findViewById(R.id.rlItem);
             rlitem = itemView.findViewById(R.id.linear_layout);
             bid_ask_title = itemView.findViewById(R.id.bid_ask_title);
+            tvLast= itemView.findViewById(R.id.tvLast);
             quantity_cost_title = itemView.findViewById(R.id.quantity_cost_title);
             volume_cost_title = itemView.findViewById(R.id.volume_cost_title);
             symbol_title = itemView.findViewById(R.id.symbol_title);

@@ -107,14 +107,15 @@
                 android:text="@string/Value" />
 
             <TextView
-                android:textColor="?attr/colorValues"
+                android:id="@+id/tvLast"
                 style="@style/textStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:gravity="center"
                 android:layout_weight="1.1"
-                android:text="" />
+                android:gravity="center"
+                android:text="@string/last_price_title"
+                android:textColor="?attr/colorValues" />
 
             <TextView
                 android:id="@+id/unrealized_title_prcnt"

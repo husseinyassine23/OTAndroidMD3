@@ -105,7 +105,42 @@
                 android:hint="@string/mobile_number"
                 android:textSize="14sp"
                 android:inputType="phone"
-                android:layout_marginBottom="20sp" />
+                android:layout_marginBottom="10sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="20sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/termAndcondition"
+                    android:textSize="@dimen/small"
+                    android:id="@+id/cbTerms"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:buttonTint="?attr/colorDark"
+                    android:textColor="?attr/colorValues"
+                 />
+
+                <TextView
+                    android:id="@+id/tv_view_terms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="10sp"
+                    android:textSize="@dimen/small"
+                    android:textStyle="bold"
+                    android:textColor="@color/blue"
+                    android:text="@string/opentermAndcondition" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btSubmit"
@@ -118,6 +153,9 @@
                 android:layout_marginEnd="30sp"
                 android:layout_marginBottom="60sp"
                 android:text="@string/submit" />
+
+
+
             <!--android:onClick="submitRegisterViaMowazi"-->
 
         </LinearLayout>

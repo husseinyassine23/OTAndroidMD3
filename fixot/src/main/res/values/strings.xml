@@ -531,4 +531,10 @@
     <string name="check_data">Please check your data entry</string>
     <string name="title_activity_base">BaseActivity</string>
 
+
+
+    <string name="termAndcondition"></string>
+    <string name="plztermAndcondition"></string>
+    <string name="opentermAndcondition"></string>
+
 </resources>

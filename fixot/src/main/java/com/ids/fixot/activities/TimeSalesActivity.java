@@ -128,6 +128,7 @@ public class TimeSalesActivity extends AppCompatActivity implements InstrumentsR
         timeSales_DB = new SqliteDb_TimeSales(this);
         timeSales_DB.open();
         MyApplication.timeSales = timeSales_DB.getAllTimeSales();
+       // MyApplication.timeSalesTimesTamp="0";
         timeSales_DB.close();
         Log.wtf("TimeSalesActivity onCreat","MyApplication.timeSales = " + MyApplication.timeSales.size());
 

@@ -190,7 +190,7 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
                         if( running ){
 
                             tmpStocks = new ArrayList<>();
-                            Log.wtf("LocalBroadcastManager","befor allStocks size = " + allStocks.size());
+                            Log.wtf("LocalBroadcastManager","before allStocks size = " + allStocks.size());
                             allStocks.clear();
                             if (getIntent().hasExtra("sectorId")) {
 
@@ -243,7 +243,6 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
 
         //<editor-fold desc="instruments section">
         if (MyApplication.instruments.size() < 2) { //being empty or only having the fake entry
-
             Actions.initializeInstruments(this);
             getInstruments = new GetInstruments();
             getInstruments.executeOnExecutor(MyApplication.threadPoolExecutor);
@@ -395,6 +394,9 @@ public class StockActivity extends AppCompatActivity implements InstrumentsRecyc
                 spMarkets.performClick();
             }
         });
+
+
+
 
         rvInstruments =  findViewById(R.id.RV_instrument);
         spMarkets =  findViewById(R.id.spMarket);

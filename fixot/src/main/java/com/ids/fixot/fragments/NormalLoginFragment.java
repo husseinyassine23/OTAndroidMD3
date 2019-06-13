@@ -236,7 +236,7 @@ public class NormalLoginFragment extends Fragment {
                 if(hasFocus) {
 //                    if(loginFinger) {
                         loginFinger = false;
-                        etPassword.setText("");
+                   //     etPassword.setText("");
                         btLogin.setText(getResources().getString(R.string.login));
 //                    }
                 }
@@ -248,7 +248,7 @@ public class NormalLoginFragment extends Fragment {
                 if(hasFocus) {
 //                    if(loginFinger) {
                         loginFinger = false;
-                        etPassword.setText("");
+                      //  etPassword.setText("");
                         btLogin.setText(getResources().getString(R.string.login));
 //                    }
                 }

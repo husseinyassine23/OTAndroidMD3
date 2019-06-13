@@ -546,6 +546,35 @@ public class GlobalFunctions {
         Parameter parameter = new Parameter();
         JSONObject object = new JSONObject(JsonString);
 
+
+        try {
+            parameter.setAlmowaziRegistrationLink(object.getString("AlMowaziRegistrationLink").equals("null") ? "" : object.getString("AlMowaziRegistrationLink"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            parameter.setForgotPasswordUrl("");
+        }
+        try {
+            parameter.setAlmowaziPolicyLink(object.getString("AlmowaziPolicyLink").equals("null") ? "" : object.getString("AlmowaziPolicyLink"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            parameter.setForgotPasswordUrl("");
+        }
+        try {
+            parameter.setEnableMowazi(object.getBoolean("EnableOTC"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            parameter.setForgotPasswordUrl("");
+        }
+/*
+        try {
+            parameter.setBroker_ID(object.getInt("broker_ID"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            parameter.setForgotPasswordUrl("");
+        }
+*/
+
+
         try {
             parameter.setMaximumPasswordLength(object.getInt("MaximumPasswordLength"));
         } catch (Exception e) {
@@ -668,6 +697,16 @@ public class GlobalFunctions {
             e.printStackTrace();
             parameter.setForgotPasswordUrl("");
         }
+
+
+
+
+
+
+
+
+
+
 
         try {
             parameter.setForgotUsernameUrl(object.getString("ForgotUsernameUrl").equals("null") ? "" : object.getString("ForgotUsernameUrl"));
@@ -863,6 +902,35 @@ public class GlobalFunctions {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+
+                    try {
+                        stock.setInstrumentId(json_data.getString("InstrumentID"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    try {
+                        stock.setTradingSession(json_data.getString("TradingSession"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    try {
+                        stock.setMarketID(json_data.getString("MarketID"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        stock.setSecurityId(json_data.getString("SecurityID"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
 
                     stocks.add(stock);
 
@@ -1849,8 +1917,12 @@ public class GlobalFunctions {
             if (!jsonobj.getString("MaxTimeStamp").equals("0"))
                 MyApplication.timeSalesTimesTamp = jsonobj.getString("MaxTimeStamp");
         } catch (JSONException e) {
+            MyApplication.timeSalesTimesTamp="0";
             e.printStackTrace();
         }
+
+
+
 
         try {
 
@@ -2455,6 +2527,9 @@ public class GlobalFunctions {
                     e.printStackTrace();
                 }
 
+
+
+
                 portfolio.setCashSummary(cashSummary);
 
             } catch (Exception e) {
@@ -2600,6 +2675,13 @@ public class GlobalFunctions {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+                    try {
+                        stockSummary.setLast(jsonObject.getString("Last"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
 
                     try {
                         stockSummary.setPendingOrders(jsonObject.getString("PendingOrders"));

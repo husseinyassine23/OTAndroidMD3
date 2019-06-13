@@ -6,10 +6,10 @@ package com.ids.fixot.model;
 
 public class Parameter {
 
-    private int id , MaximumPasswordLength , MinimumPasswordLength , DefaultDMABrokerEmployeeID;
+    private int id , MaximumPasswordLength , MinimumPasswordLength , DefaultDMABrokerEmployeeID,broker_ID;
     private String messageEn, messageAr, serverVersionNumber, status, mowaziBrokerId, mowaziServiceLink , defaultPriceOnTrade;
-    private String forgotPasswordUrl, forgotUsernameUrl,  unlockUserUrl, clientRegistrationUrl, facebookLink, rssLink, twitterLink, youTubeLink;
-    private boolean forceUpdate, renewPasswordHashing, tradeOnlyIslamicStocks, mowaziCompanyDetail, enableMowazi , ComplexPasswordEnabled , CanUserManageTraderOrder;
+    private String forgotPasswordUrl, forgotUsernameUrl,  unlockUserUrl, clientRegistrationUrl, facebookLink, rssLink, twitterLink, youTubeLink,AlmowaziRegistrationLink,AlmowaziPolicyLink;
+    private boolean forceUpdate, renewPasswordHashing, tradeOnlyIslamicStocks, mowaziCompanyDetail, enableMowazi , ComplexPasswordEnabled , CanUserManageTraderOrder,EnableOTC;
 
     public Parameter(){
     }
@@ -165,6 +165,39 @@ public class Parameter {
 
     public void setForgotPasswordUrl(String forgotPasswordUrl) {
         this.forgotPasswordUrl = forgotPasswordUrl;
+    }
+
+
+    public String getAlmowaziRegistrationLink() {
+        return AlmowaziRegistrationLink;
+    }
+
+    public void setAlmowaziRegistrationLink(String almowaziRegistrationLink) {
+        AlmowaziRegistrationLink = almowaziRegistrationLink;
+    }
+
+    public String getAlmowaziPolicyLink() {
+        return AlmowaziPolicyLink;
+    }
+
+    public void setAlmowaziPolicyLink(String almowaziPolicyLink) {
+        AlmowaziPolicyLink = almowaziPolicyLink;
+    }
+
+    public boolean isEnableOTC() {
+        return EnableOTC;
+    }
+
+    public void setEnableOTC(boolean enableOTC) {
+        EnableOTC = enableOTC;
+    }
+
+    public int getBroker_ID() {
+        return broker_ID;
+    }
+
+    public void setBroker_ID(int broker_ID) {
+        this.broker_ID = broker_ID;
     }
 
     public String getForgotUsernameUrl() {

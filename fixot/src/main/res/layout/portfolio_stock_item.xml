@@ -92,17 +92,49 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/bid_ask_title"
-        style="@style/textStyle"
+
+
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.1"
-        android:layout_gravity="center_vertical|top"
-        android:textColor="?attr/colorValues"
-        android:padding="@dimen/mini_padding"
         android:gravity="center"
-        android:text="@string/bid_ask_title" />
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/bid_ask_title"
+            style="@style/textStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorValues"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center"
+            android:textDirection="ltr"
+            android:padding="2dp"
+            android:text="@string/bid_ask_title" />
+
+
+        <TextView
+            android:id="@+id/tvLast"
+            style="@style/textStyle"
+            android:layout_width="wrap_content"
+            android:textDirection="ltr"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorValues"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="@string/last_price_title" />
+
+    </LinearLayout>
+
+
+
+
+
+
 
     <LinearLayout
         android:layout_width="0dp"

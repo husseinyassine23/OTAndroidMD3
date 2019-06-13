@@ -21,8 +21,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,16 +38,23 @@ import com.ids.fixot.MarketStatusReceiver.MarketStatusListener;
 import com.ids.fixot.MarketStatusReceiver.marketStatusReceiver;
 import com.ids.fixot.MyApplication;
 import com.ids.fixot.R;
+import com.ids.fixot.adapters.InstrumentsRecyclerAdapter;
+import com.ids.fixot.adapters.MarketsSpinnerAdapter;
+import com.ids.fixot.adapters.StockQuotationRecyclerAdapter;
 import com.ids.fixot.adapters.TopsRecyclerAdapter;
 import com.ids.fixot.fragments.TopGainersFragment;
 import com.ids.fixot.fragments.TopLosersFragment;
+import com.ids.fixot.model.Instrument;
 import com.ids.fixot.model.Stock;
+import com.ids.fixot.enums.enums.TradingSession;
+import com.ids.fixot.model.StockQuotation;
+import com.ids.fixot.model.TimeSale;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class TopsActivity extends AppCompatActivity implements MarketStatusListener {
+public class TopsActivity extends AppCompatActivity implements InstrumentsRecyclerAdapter.RecyclerViewOnItemClickListener,MarketStatusListener {
 
     private BroadcastReceiver receiver;
 
@@ -61,11 +71,33 @@ public class TopsActivity extends AppCompatActivity implements MarketStatusListe
     LinearLayoutManager llmGainers, llmLosers, llTraded, llTrades, llVolume;
     TopsRecyclerAdapter gainersAdapter, losersAdapter, tradedAdapter, tradesAdapter, volumeAdapter;
     ArrayList<Stock> allStocks = new ArrayList<>();
+    ArrayList<Stock> tmpStocks = new ArrayList<>();
+
     TextView tvGainersTrading, tvGainersSymbol, tvGainersChange, tvGainersChangePercent, tvGainersPrice;
     TextView tvLosersTrading, tvLosersSymbol, tvLosersChange, tvLosersChangePercent, tvLosersPrice;
     TextView tvTradedTrading, tvTradedSymbol, tvTradedChange, tvTradedChangePercent, tvTradedPrice;
     TextView tvTradesTrading, tvTradesSymbol, tvTradesChange, tvTradesChangePercent, tvTradesPrice;
     TextView tvVolumeTrading, tvVolumeSymbol, tvVolumeChange, tvVolumeChangePercent, tvVolumePrice;
+
+    //filter header
+    RecyclerView rvInstruments;
+    Spinner spMarkets;
+    MarketsSpinnerAdapter marketsSpinnerAdapter;
+    ArrayList<TradingSession> AllMarkets = new ArrayList<>();
+    TradingSession selectMarket = TradingSession.All ;
+    ArrayList<Instrument> marketInstruments = new ArrayList<>();
+    ArrayList<Instrument> allInstruments = new ArrayList<>();
+    Boolean isSelectInstrument = false;
+    InstrumentsRecyclerAdapter instrumentsRecyclerAdapter;
+    Instrument selectedInstrument = new Instrument();
+    String instrumentId = "";
+    GetInstruments getInstruments;
+
+
+
+
+
+
     //</editor-fold>
 
     private boolean started = false;
@@ -102,9 +134,49 @@ public class TopsActivity extends AppCompatActivity implements MarketStatusListe
 
         Actions.initializeToolBar(getResources().getString(R.string.tops), this);
 
+        for(int i=0;i<MyApplication.instruments.size();i++){
+            Log.wtf("instruments",MyApplication.instruments.get(i).getInstrumentName());
+        }
+
+
         started = true;
 
+
+      /*  allInstruments.addAll(MyApplication.instruments);
+        marketInstruments = allInstruments;
+*/
+
         findViews();
+
+
+
+        MyApplication.instrumentId = "";
+        getInstruments = new GetInstruments();
+
+        Log.wtf("onCreate","MyApplication.instruments count: " + MyApplication.instruments.size());
+        if (MyApplication.instruments.size() < 2) {
+
+            Actions.initializeInstruments(this);
+            getInstruments.executeOnExecutor(MyApplication.threadPoolExecutor);
+        } else {
+
+            allInstruments.clear();
+
+            if(!MyApplication.isOTC) {
+                for (int i = 1; i < AllMarkets.size(); i++) {
+                    allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments, AllMarkets.get(i).getValue()));
+                }
+            }else{
+                allInstruments.addAll(MyApplication.instruments);
+            }
+
+
+        }
+
+
+
+
+
 
         if (Actions.isNetworkAvailable(this)){
 
@@ -140,20 +212,18 @@ public class TopsActivity extends AppCompatActivity implements MarketStatusListe
 
             allStocks.clear();
 
-            gainersAdapter.notifyDataSetChanged();
-            losersAdapter.notifyDataSetChanged();
-            tradedAdapter.notifyDataSetChanged();
-            tradesAdapter.notifyDataSetChanged();
-            volumeAdapter.notifyDataSetChanged();
+           notifyadapters();
 
             getTops = new GetTops();
             getTops.execute();
             swipeContainer.setRefreshing(false);
         });
 
+
         initializeHeaders();
 
         initializeRecyclers();
+        initializeFilters();
     }
 
     private void initializeRecyclers() {
@@ -241,6 +311,71 @@ public class TopsActivity extends AppCompatActivity implements MarketStatusListe
         tvVolumeTrading.setText(getResources().getString(R.string.amount_title));
     }
 
+    private void initializeFilters(){
+
+        if(MyApplication.lang == MyApplication.ARABIC){
+            AllMarkets.add(TradingSession.All_ar);
+            AllMarkets.add(TradingSession.REG_ar);
+            AllMarkets.add(TradingSession.FUNDS_ar);
+        }
+        else{
+            AllMarkets.add(TradingSession.All);
+            AllMarkets.add(TradingSession.REG);
+            AllMarkets.add(TradingSession.FUNDS);
+        }
+
+
+        ImageView iv_arrow = findViewById(R.id.iv_arrow);
+        iv_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spMarkets.performClick();
+            }
+        });
+        rvInstruments =  findViewById(R.id.RV_instrument);
+        spMarkets =  findViewById(R.id.spMarket);
+        marketsSpinnerAdapter = new MarketsSpinnerAdapter(this, AllMarkets , true) ;
+        spMarkets.setAdapter(marketsSpinnerAdapter);
+        spMarkets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectMarket = AllMarkets.get(position);
+                MyApplication.instrumentId = "";
+                isSelectInstrument = false;
+
+                if(selectMarket.getValue() == TradingSession.All.getValue()){
+                    marketInstruments = allInstruments;
+                }else{
+                    marketInstruments = Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments , selectMarket.getValue());
+                }
+
+                for (Instrument inst : marketInstruments) { inst.setIsSelected(false); }
+
+                instrumentsRecyclerAdapter = new InstrumentsRecyclerAdapter(TopsActivity.this, marketInstruments,TopsActivity.this);
+                rvInstruments.setAdapter(instrumentsRecyclerAdapter);
+                Log.wtf("select Market : " + selectMarket.toString() , "instrument count = " + marketInstruments.size());
+
+                retrieveFiltered();
+
+                Log.wtf("on instr click","allStocks count = " + allStocks.size());
+
+                notifyadapters();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        rvInstruments.setLayoutManager(new LinearLayoutManager(TopsActivity.this , LinearLayoutManager.HORIZONTAL, false));
+        instrumentsRecyclerAdapter = new InstrumentsRecyclerAdapter(this, marketInstruments,this);
+        rvInstruments.setAdapter(instrumentsRecyclerAdapter);
+
+    }
+
+
+
     public void back(View v) {
 
         finish();
@@ -280,6 +415,157 @@ public class TopsActivity extends AppCompatActivity implements MarketStatusListe
         Actions.loadFooter(this, v);
     }
 
+    @Override
+    public void onItemClicked(View v, int position) {
+        for(int i=0; i<marketInstruments.size(); i++){
+            if(i==position){
+                marketInstruments.get(i).setIsSelected(marketInstruments.get(i).getIsSelected() ? false : true);
+                selectedInstrument = marketInstruments.get(i).getIsSelected() ? marketInstruments.get(i) : new Instrument();
+                instrumentId = marketInstruments.get(i).getIsSelected() ? selectedInstrument.getInstrumentCode() : "" ;
+                isSelectInstrument = marketInstruments.get(i).getIsSelected() ? true : false ;
+                MyApplication.instrumentId = instrumentId;
+            }
+            else{
+                marketInstruments.get(i).setIsSelected(false);
+            }
+        }
+
+        /*if(allInstruments.get(position).getIsSelected()){ allInstruments.get(position).setIsSelected(false); }
+        else{ allInstruments.get(position).setIsSelected(true); }*/
+
+        instrumentsRecyclerAdapter.notifyDataSetChanged();
+
+        allStocks.clear();
+        retrieveFiltered();
+    }
+
+    private void retrieveFiltered() {
+        tmpStocks = new ArrayList<>();
+        allStocks = new ArrayList<>();
+        tmpStocks = (Actions.filterTopsByInstruments(MyApplication.stockTops , MyApplication.instruments));
+
+
+        if(isSelectInstrument) {
+
+            allStocks.addAll(tmpStocks);
+        }
+        else{
+
+            if(selectMarket.getValue() == TradingSession.All.getValue()){
+                allStocks.addAll(Actions.filterTopsByInstruments(tmpStocks, allInstruments));
+            }
+            else{
+                allStocks.addAll(Actions.filterTopsByInstruments(tmpStocks, marketInstruments));
+
+            }
+        }
+
+
+        gainersAdapter = new TopsRecyclerAdapter(TopsActivity.this, Actions.getStocksTopsByType(allStocks, MyApplication.TOP_GAINERS), MyApplication.TOP_GAINERS);
+        rvTopGainers.setAdapter(gainersAdapter);
+
+        losersAdapter = new TopsRecyclerAdapter(TopsActivity.this, Actions.getStocksTopsByType(allStocks, MyApplication.TOP_LOSERS), MyApplication.TOP_LOSERS);
+        rvTopLosers.setAdapter(losersAdapter);
+
+        tradedAdapter = new TopsRecyclerAdapter(TopsActivity.this, Actions.getStocksTopsByType(allStocks, MyApplication.TOP_TRADED), MyApplication.TOP_TRADED);
+        rvTopTraded.setAdapter(tradedAdapter);
+
+        tradesAdapter = new TopsRecyclerAdapter(TopsActivity.this, Actions.getStocksTopsByType(allStocks, MyApplication.TOP_TRADES), MyApplication.TOP_TRADES);
+        rvTopTrades.setAdapter(tradesAdapter);
+
+        volumeAdapter = new TopsRecyclerAdapter(TopsActivity.this, Actions.getStocksTopsByType(allStocks, MyApplication.TOP_VALUES), MyApplication.TOP_VALUES);
+        rvTopVolume.setAdapter(volumeAdapter);
+
+
+
+        Log.wtf("on instr click","allStocks count = " + allStocks.size());
+
+        //rvStocks.setAdapter(adapter);
+        //adapter.notifyDataSetChanged();
+    }
+
+
+
+
+    private class GetInstruments extends AsyncTask<Void, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+           // MyApplication.showDialog(TopsActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(Void... a) {
+
+            String result = "";
+            String url = MyApplication.link + MyApplication.GetInstruments.getValue(); // this method uses key after login
+
+            try {
+                HashMap<String, String> parameters = new HashMap<String, String>();
+                parameters.put("id", instrumentId.length() == 0 ? "0" : instrumentId);
+                parameters.put("key", getResources().getString(R.string.beforekey));
+                result = ConnectionRequests.GET(url, TopsActivity.this, parameters);
+
+                MyApplication.instruments.addAll(GlobalFunctions.GetInstrumentsList(result));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                if(MyApplication.isDebug) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.error_code) + MyApplication.GetInstruments.getKey(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            MyApplication.dismiss();
+
+            allInstruments.clear();
+            for(int i=1; i<AllMarkets.size(); i++){
+                Log.wtf("GetInstruments onPostExecute","MyApplication.instruments count: " + MyApplication.instruments.size());
+                Log.wtf("GetInstruments onPostExecute","AllMarkets.get(i) : " + AllMarkets.get(i).getValue());
+                allInstruments.addAll(Actions.filterInstrumentsByMarketSegmentID(MyApplication.instruments , AllMarkets.get(i).getValue()));
+            }
+            marketInstruments = allInstruments;
+            instrumentsRecyclerAdapter.notifyDataSetChanged();
+
+            tmpStocks = (MyApplication.stockTops);
+            allStocks.addAll(Actions.filterTopsByInstruments(tmpStocks,  marketInstruments));
+          try {
+              notifyadapters();
+          }catch (Exception e){
+              Log.wtf("adapter_exception",e.toString());
+          }
+
+        }
+    }
+
+
+
+
+    private void notifyadapters(){
+        gainersAdapter.notifyDataSetChanged();
+        losersAdapter.notifyDataSetChanged();
+        tradedAdapter.notifyDataSetChanged();
+        tradesAdapter.notifyDataSetChanged();
+        volumeAdapter.notifyDataSetChanged();
+    }
+
+
+
+
+
+
+
+
 
     private class GetTops extends AsyncTask<Void, Void, String> {
 
@@ -310,6 +596,7 @@ public class TopsActivity extends AppCompatActivity implements MarketStatusListe
 
                 try {
                     allStocks.addAll(GlobalFunctions.GetStockTops(result));
+                    MyApplication.stockTops.addAll(GlobalFunctions.GetStockTops(result));
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -334,7 +621,13 @@ public class TopsActivity extends AppCompatActivity implements MarketStatusListe
             return result;
         }
 
-        @Override
+
+
+
+
+
+
+            @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.wtf("alStocks", allStocks.size()+"");
@@ -356,10 +649,37 @@ public class TopsActivity extends AppCompatActivity implements MarketStatusListe
                 volumeAdapter = new TopsRecyclerAdapter(TopsActivity.this, Actions.getStocksTopsByType(allStocks, MyApplication.TOP_VALUES), MyApplication.TOP_VALUES);
                 rvTopVolume.setAdapter(volumeAdapter);
 
+
+                marketInstruments = allInstruments;
+                instrumentsRecyclerAdapter.notifyDataSetChanged();
+
+
                 MyApplication.dismiss();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
+
+
+
+    private ArrayList<Stock> filterTops(String tradingSession,String instrumentId){
+        ArrayList<Stock> filteredArray=new ArrayList<>();
+
+         if(!instrumentId.isEmpty()){
+            for (int i = 0; i < allStocks.size(); i++) {
+                if (allStocks.get(i).getInstrumentId().matches(instrumentId));
+                   filteredArray.add(allStocks.get(i));
+
+            }
+        }
+
+      return filteredArray;
+    }
+
+
+
+
+
 }

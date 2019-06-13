@@ -25,6 +25,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -102,6 +104,7 @@ public class LoginFingerPrintActivity extends AppCompatActivity implements SiteM
         Actions.setActivityTheme(this);
         super.onCreate(savedInstanceState);
         Actions.setLocal(MyApplication.lang, this);
+
         setContentView(R.layout.activity_fingerprint_login);
         Actions.initializeBugsTracking(this);
 
@@ -299,6 +302,13 @@ public class LoginFingerPrintActivity extends AppCompatActivity implements SiteM
         EditText etMobileNumber = editDialogRegisterViaMowazi.findViewById(R.id.etMobileNumber);
         Button btSubmit = editDialogRegisterViaMowazi.findViewById(R.id.btSubmit);
         Button btClose = editDialogRegisterViaMowazi.findViewById(R.id.btClose);
+        CheckBox cbTerms=editDialogRegisterViaMowazi.findViewById(R.id.cbTerms);
+        TextView tv_view_terms=editDialogRegisterViaMowazi.findViewById(R.id.tv_view_terms);
+        tv_view_terms.setOnClickListener(v ->  {
+                    String url = MyApplication.parameter.getAlmowaziPolicyLink();
+                    startActivity(new Intent(LoginFingerPrintActivity.this, PdfDisplayActivity.class).putExtra("url", url));
+                }
+        );
 
         if (MyApplication.lang == MyApplication.ARABIC){
             tv_register.setTypeface(MyApplication.droidbold);
@@ -336,12 +346,17 @@ public class LoginFingerPrintActivity extends AppCompatActivity implements SiteM
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValidEmail(etEmail.getText().toString())){
+
+                if(!cbTerms.isChecked())
+                    Toast.makeText(LoginFingerPrintActivity.this, getString(R.string.plztermAndcondition), Toast.LENGTH_SHORT).show();
+
+                else if(!isValidEmail(etEmail.getText().toString()))
+                    Toast.makeText(LoginFingerPrintActivity.this, "Please Enter a valid Email", Toast.LENGTH_SHORT).show();
+
+                else{
                     RegisterViaMowaziTask registerViaMowaziTask = new RegisterViaMowaziTask(etTradingNumber.getText().toString() ,etEmail.getText().toString() ,etFirstName.getText().toString() ,etLastName.getText().toString() ,etMobileNumber.getText().toString() );
                     registerViaMowaziTask.executeOnExecutor(MyApplication.threadPoolExecutor);
-                }
-                else{
-                    Toast.makeText(LoginFingerPrintActivity.this, "Please Enter a valid Email", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -395,7 +410,10 @@ public class LoginFingerPrintActivity extends AppCompatActivity implements SiteM
         protected String doInBackground(Void... params) {
 
             String result = "";
-            String url = "https://almowazi.com/TradingWebservice/WSTradingClient.asmx/SRV_SaveNewUserMowazi?";
+           // String url = "https://almowazi.com/TradingWebservice/WSTradingClient.asmx/SRV_SaveNewUserMowazi?";
+            String url = MyApplication.parameter.getAlmowaziRegistrationLink()+"?";
+            Log.wtf("link_reg","link"+url);
+            Log.wtf("broker_id", MyApplication.parameter.getMowaziBrokerId());
             // https://www.almowazi.com/md3iphoneservice/services/dataservice.svc
 
             HashMap<String, String> parameters = new HashMap<String, String>();
@@ -407,6 +425,7 @@ public class LoginFingerPrintActivity extends AppCompatActivity implements SiteM
                 parameters.put("FName", FName);
                 parameters.put("LName", LName);
                 parameters.put("MobileNumber", MobileNumber);
+                parameters.put("broker_ID", MyApplication.parameter.getMowaziBrokerId());
 
                 result = ConnectionRequests.GET(url, LoginFingerPrintActivity.this, parameters);
 
@@ -921,13 +940,20 @@ public class LoginFingerPrintActivity extends AppCompatActivity implements SiteM
         }
     }
 
-    public Boolean isValidEmail(String email){
+/*    public Boolean isValidEmail(String email){
         Boolean valid = false;
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (email.matches(emailPattern) && email.length() > 0) {
             valid = true;
         }
         return valid;
+    }*/
+
+    public Boolean isValidEmail(String target) {
+        if (target == null)
+            return false;
+
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
     //    @Override
